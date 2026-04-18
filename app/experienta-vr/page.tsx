@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import VideoEmbed from "@/components/VideoEmbed";
+import GaleriePhoto from "@/components/GaleriePhoto";
 
 export const metadata: Metadata = {
   title: "Experiență VR — Profesia 360",
@@ -49,6 +51,9 @@ const features = [
   },
 ];
 
+// Înlocuiește cu URL-ul real al videoclipului demo al platformei (YouTube sau Vimeo)
+const VIDEO_DEMO = "";
+
 export default function ExperientaVRPage() {
   return (
     <>
@@ -95,12 +100,34 @@ export default function ExperientaVRPage() {
         </div>
       </section>
 
+      {/* Video demo platformă */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="section-title text-center mb-3">Demo platformă</h2>
+          <p className="text-center text-gray-500 text-sm mb-8">
+            Urmărește cum funcționează experiența VR în Profesia 360.
+          </p>
+          <VideoEmbed url={VIDEO_DEMO} titlu="Demo experiență VR — Profesia 360" />
+        </div>
+      </section>
+
+      {/* Galerie foto */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="section-title text-center mb-3">Din platforma noastră</h2>
+          <p className="text-center text-gray-500 text-sm mb-8">
+            Click pe orice imagine pentru a o vedea mărită.
+          </p>
+          <GaleriePhoto />
+        </div>
+      </section>
+
       {/* Professions grid */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
           <h2 className="section-title text-center mb-3">Profesii disponibile</h2>
           <p className="text-center text-gray-500 text-sm mb-10">
-            Explore, simulează și descoperă — noi profesii sunt adăugate continuu.
+            Explorează, simulează și descoperă — noi profesii sunt adăugate continuu.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {professions.map((prof) => (

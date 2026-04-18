@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import VideoEmbed from "@/components/VideoEmbed";
 
 export const metadata: Metadata = {
   title: "Ghid Carieră — Profesia 360",
@@ -24,6 +25,10 @@ const interviewTips = [
   { title: "Vorbește despre realizări", desc: "Fii specific și cantitativ: 'Am crescut vânzările cu 30% în 6 luni'." },
   { title: "Follow-up", desc: "Trimite un email de mulțumire în 24h după interviu, reiterând interesul pentru post." },
 ];
+
+// Înlocuiește URL-urile de mai jos cu videoclipurile reale YouTube/Vimeo
+const VIDEO_CV = "";
+const VIDEO_INTERVIU = "";
 
 export default function GhidCarieraPage() {
   return (
@@ -52,7 +57,7 @@ export default function GhidCarieraPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900">Cum îți construiești un CV</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
             {cvTips.map((tip, i) => (
               <div key={i} className="card hover:shadow-md transition-shadow">
                 <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center mb-3">
@@ -62,6 +67,17 @@ export default function GhidCarieraPage() {
                 <p className="text-xs text-gray-500 leading-relaxed">{tip.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* Video ghid CV */}
+          <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
+            <h3 className="font-bold text-gray-900 text-lg mb-1">
+              Video ghid — Cum să-ți scrii CV-ul
+            </h3>
+            <p className="text-sm text-gray-500 mb-5">
+              Urmărește tutorialul video pentru sfaturi practice pas cu pas.
+            </p>
+            <VideoEmbed url={VIDEO_CV} titlu="Ghid construire CV — Profesia 360" />
           </div>
         </div>
       </section>
@@ -77,7 +93,7 @@ export default function GhidCarieraPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900">Cum te prezinți la un interviu</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
             {interviewTips.map((tip, i) => (
               <div key={i} className="card hover:shadow-md transition-shadow">
                 <div className="w-7 h-7 rounded-lg bg-green-50 flex items-center justify-center mb-3">
@@ -89,6 +105,17 @@ export default function GhidCarieraPage() {
                 <p className="text-xs text-gray-500 leading-relaxed">{tip.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* Video ghid interviu */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-bold text-gray-900 text-lg mb-1">
+              Video ghid — Cum să te pregătești pentru interviu
+            </h3>
+            <p className="text-sm text-gray-500 mb-5">
+              Tehnici dovedite pentru un interviu de succes, prezentate pas cu pas.
+            </p>
+            <VideoEmbed url={VIDEO_INTERVIU} titlu="Ghid pregătire interviu — Profesia 360" />
           </div>
         </div>
       </section>

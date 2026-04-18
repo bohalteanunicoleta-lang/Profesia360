@@ -99,38 +99,49 @@ const plans = [
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-50 via-white to-purple-50 py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6">
-                Descoperă-ți{" "}
-                <span className="text-primary">cariera ideală</span> prin
-                experiențe VR
-              </h1>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Profesia 360 este platforma care îți permite să explorezi sute
-                de meserii în mod virtual, interactiv și practic — înainte să
-                faci o alegere importantă.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/experienta-vr" className="btn-primary text-base">
-                  ① Intră în experiența VR
-                </Link>
-                <Link href="/cum-functioneaza" className="btn-outline text-base">
-                  ② Vezi cum funcționează
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="w-full max-w-md aspect-video rounded-2xl bg-gradient-to-br from-primary to-purple-400 flex items-center justify-center shadow-2xl">
-                <div className="text-center text-white">
-                  <div className="text-6xl mb-3">◉</div>
-                  <p className="font-semibold text-lg">Imagine reprezentativă</p>
-                  <p className="text-sm opacity-80">Experiențe VR interactive</p>
-                </div>
-              </div>
+      {/* Hero cu video de fundal */}
+      <section className="relative min-h-[88vh] flex items-center overflow-hidden">
+        {/* Video de fundal */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/hero-bg.jpg"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+
+        {/* Overlay violet #5B3FD4 la 70% opacitate */}
+        <div className="absolute inset-0 bg-primary" style={{ opacity: 0.70 }} />
+
+        {/* Conținut */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          <div className="max-w-2xl">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+              Descoperă-ți{" "}
+              <span className="text-yellow-300">cariera ideală</span>{" "}
+              prin experiențe VR
+            </h1>
+            <p className="text-lg text-white/80 mb-10 leading-relaxed">
+              Profesia 360 este platforma care îți permite să explorezi sute de
+              meserii în mod virtual, interactiv și practic — înainte să faci o
+              alegere importantă.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/experienta-vr"
+                className="bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-50 transition-colors text-base"
+              >
+                ① Intră în experiența VR
+              </Link>
+              <Link
+                href="/cum-functioneaza"
+                className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-primary transition-colors text-base"
+              >
+                ② Vezi cum funcționează
+              </Link>
             </div>
           </div>
         </div>
