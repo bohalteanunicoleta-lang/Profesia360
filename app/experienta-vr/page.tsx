@@ -78,19 +78,22 @@ export default function ExperientaVRPage() {
           <h2 className="section-title text-center mb-3">Cum funcționează platforma</h2>
           <p className="text-center text-gray-500 text-sm mb-8">5 pași simpli de la cont la raportul de carieră.</p>
           <PasiSlideshow />
-          <div className="mt-8 rounded-2xl overflow-hidden">
-            <div className="bg-gray-900 px-4 py-3">
-              <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-3">Video demo — VR în educație</p>
+          <div style={{ borderRadius: 16, overflow: "hidden", marginTop: 24, boxShadow: "0 8px 32px rgba(37,99,235,0.15)" }}>
+            <div style={{ background: "#1e3a5f", padding: "12px 20px", display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ color: "#60a5fa", fontSize: 16 }}>▶</span>
+              <span style={{ color: "#fff", fontSize: 14, fontWeight: 600 }}>Demo VR în educație — cum arată o experiență imersivă</span>
             </div>
             <div style={{ position: "relative", paddingTop: "56.25%" }}>
               <iframe
-                src="https://www.youtube.com/embed/2hpvgAkXqGU"
+                src="https://www.youtube.com/embed/VYlTx4VRscs?rel=0&modestbranding=1"
                 style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-                allow="fullscreen"
+                title="VR în educație"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                loading="lazy"
-                title="Demo VR educație"
               />
+            </div>
+            <div style={{ background: "#dbeafe", padding: "12px 20px" }}>
+              <p style={{ fontSize: 13, color: "#1e3a5f", margin: 0 }}>🥽 Urmărește cum arată o experiență VR completă în explorarea unei profesii — de la simulare la feedback.</p>
             </div>
           </div>
         </div>
@@ -156,6 +159,34 @@ export default function ExperientaVRPage() {
                 <Link href="/gaseste-ti-directia" className="btn-primary text-sm inline-block">Rezervă sesiunea</Link>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Recenzii utilizatori */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="section-title text-center mb-3">Ce spun utilizatorii</h2>
+          <p className="text-center text-gray-500 text-sm mb-10">Experiențe reale de la tineri care au folosit platforma.</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { nume: "Andreea M., 17 ani", text: "Am simulat o zi ca medic și am realizat că asta e exact ce vreau să fac. Feedback-ul AI m-a ajutat să înțeleg și ce trebuie să îmbunătățesc.", stele: 5 },
+              { nume: "Radu T., 19 ani", text: "Nu mă așteptam să fie atât de realist. Am trecut prin scenarii reale din IT și acum știu sigur că vreau să devin programator.", stele: 5 },
+              { nume: "Maria P., 16 ani", text: "Sesiunea 1-1 cu profesionistul a fost incredibilă. Mi-a răspuns la toate întrebările pe care nu îndrăzneam să le pun altundeva.", stele: 5 },
+              { nume: "Bogdan V., 21 ani", text: "Platforma m-a ajutat să iau o decizie informată la reconversia profesională. Mult mai util decât orice test de orientare clasic.", stele: 5 },
+              { nume: "Prof. coordonator", text: "Am recomandat Profesia 360 întregii clase. Elevii au fost mult mai motivați în alegerea liceului după ce au testat platforma.", stele: 5 },
+              { nume: "Elena D., 18 ani", text: "Galeria de profesii este impresionantă. Am explorat 3 domenii diferite și am găsit în sfârșit ce mă pasionează cu adevărat.", stele: 5 },
+            ].map((r) => (
+              <div key={r.nume} className="card hover:shadow-md transition-shadow">
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: r.stele }).map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-sm">★</span>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4 italic">&ldquo;{r.text}&rdquo;</p>
+                <p className="text-xs font-semibold text-gray-800">{r.nume}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

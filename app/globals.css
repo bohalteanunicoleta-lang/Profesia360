@@ -5,29 +5,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #5B3FD4;
+  --primary: #2563eb;
+  --bg-primary: #e8f0fe;
+  --bg-secondary: #dbeafe;
+  --bg-card: #ffffff;
+  --bg-section: #eff6ff;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --accent: #2563eb;
+  --accent2: #7c3aed;
+  --border: rgba(37, 99, 235, 0.15);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: Inter, system-ui, sans-serif;
-  color: #1a1a2e;
+  color: #1e293b;
+  background: linear-gradient(135deg, #e8f0fe 0%, #dbeafe 50%, #eff6ff 100%);
+  background-attachment: fixed;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white font-semibold px-6 py-3 rounded-full hover:bg-primary-600 transition-colors duration-200;
+    @apply bg-blue-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-200;
   }
   .btn-outline {
-    @apply border-2 border-primary text-primary font-semibold px-6 py-3 rounded-full hover:bg-primary hover:text-white transition-colors duration-200;
+    @apply border-2 border-blue-600 text-blue-600 font-semibold px-6 py-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-200;
   }
   .section-title {
     @apply text-3xl font-bold text-gray-900 mb-4;
   }
   .card {
-    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;
+    @apply bg-white rounded-2xl shadow-sm border border-blue-100 p-6;
   }
 }

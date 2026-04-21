@@ -51,34 +51,34 @@ export default function PasiSlideshow() {
   const pas = PASI[current];
 
   return (
-    <div style={{ background: "#0f1117", borderRadius: 16, overflow: "hidden", border: "0.5px solid rgba(255,255,255,0.08)" }}>
+    <div style={{ background: "rgba(255,255,255,0.9)", borderRadius: 16, overflow: "hidden", border: "1px solid #bfdbfe", boxShadow: "0 8px 32px rgba(37,99,235,0.12)" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 340 }}>
         {/* Text */}
         <div style={{ padding: "32px 28px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <div style={{ fontSize: 11, color: "#4f8ef7", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16 }}>
+          <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16 }}>
             Pasul {pas.nr} din {PASI.length}
           </div>
           <div style={{ fontSize: 36, marginBottom: 10 }}>{pas.icon}</div>
-          <h3 style={{ fontSize: 22, fontWeight: 700, color: "#e8eaf0", marginBottom: 10 }}>{pas.titlu}</h3>
-          <p style={{ fontSize: 14, color: "#8b93a8", lineHeight: 1.75 }}>{pas.desc}</p>
+          <h3 style={{ fontSize: 22, fontWeight: 700, color: "#1e293b", marginBottom: 10 }}>{pas.titlu}</h3>
+          <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.75 }}>{pas.desc}</p>
 
           {/* Progress bar */}
-          <div style={{ marginTop: 24, height: 3, background: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
-            <div style={{ height: "100%", width: `${progress}%`, background: "#4f8ef7", borderRadius: 2, transition: "width 0.1s linear" }} />
+          <div style={{ marginTop: 24, height: 3, background: "#dbeafe", borderRadius: 2 }}>
+            <div style={{ height: "100%", width: `${progress}%`, background: "#2563eb", borderRadius: 2, transition: "width 0.1s linear" }} />
           </div>
 
           {/* Nav dots + buttons */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16 }}>
             <button onClick={() => setCurrent((c) => (c - 1 + PASI.length) % PASI.length)}
-              style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#8b93a8", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 13 }}>←</button>
+              style={{ background: "#dbeafe", border: "none", color: "#2563eb", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 13 }}>←</button>
             <div style={{ display: "flex", gap: 6 }}>
               {PASI.map((_, i) => (
                 <button key={i} onClick={() => setCurrent(i)}
-                  style={{ width: 8, height: 8, borderRadius: "50%", border: "none", cursor: "pointer", background: i === current ? "#4f8ef7" : "rgba(255,255,255,0.2)", padding: 0 }} />
+                  style={{ width: 8, height: 8, borderRadius: "50%", border: "none", cursor: "pointer", background: i === current ? "#2563eb" : "#bfdbfe", padding: 0 }} />
               ))}
             </div>
             <button onClick={() => setCurrent((c) => (c + 1) % PASI.length)}
-              style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#8b93a8", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 13 }}>→</button>
+              style={{ background: "#dbeafe", border: "none", color: "#2563eb", borderRadius: 6, padding: "6px 12px", cursor: "pointer", fontSize: 13 }}>→</button>
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export default function PasiSlideshow() {
             loading="lazy"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(15,17,23,0.4), transparent)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(219,234,254,0.3), transparent)" }} />
         </div>
       </div>
     </div>

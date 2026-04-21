@@ -84,43 +84,43 @@ export default function DomeniiVR() {
         const isOpen = open === domeniu.key;
         const hasAvailable = domeniu.profesii.some((p) => p.available);
         return (
-          <div key={domeniu.key} style={{ background: "#161b26", border: isOpen ? "0.5px solid rgba(79,142,247,0.4)" : "0.5px solid rgba(255,255,255,0.07)", borderRadius: 14, overflow: "hidden", transition: "border-color .2s" }}>
+          <div key={domeniu.key} style={{ background: "rgba(255,255,255,0.9)", border: isOpen ? "1.5px solid #93c5fd" : "1px solid #bfdbfe", borderRadius: 14, overflow: "hidden", transition: "border-color .2s", boxShadow: "0 2px 8px rgba(37,99,235,0.07)" }}>
             <button
               onClick={() => setOpen(isOpen ? null : domeniu.key)}
               style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "18px 20px", display: "flex", alignItems: "center", gap: 16, textAlign: "left" }}
             >
               <span style={{ fontSize: 28, flexShrink: 0 }}>{domeniu.icon}</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 600, color: "#e8eaf0", marginBottom: 3 }}>{domeniu.title}</div>
-                <div style={{ fontSize: 13, color: "#8b93a8" }}>{domeniu.profesii.filter((p) => p.available).length} profesii disponibile</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: "#1e293b", marginBottom: 3 }}>{domeniu.title}</div>
+                <div style={{ fontSize: 13, color: "#64748b" }}>{domeniu.profesii.filter((p) => p.available).length} profesii disponibile</div>
               </div>
               {!hasAvailable && (
-                <span style={{ fontSize: 11, color: "#5a6278", background: "#1c2333", padding: "3px 10px", borderRadius: 20, flexShrink: 0 }}>În curând</span>
+                <span style={{ fontSize: 11, color: "#94a3b8", background: "#f1f5f9", padding: "3px 10px", borderRadius: 20, flexShrink: 0 }}>În curând</span>
               )}
-              <span style={{ color: "#8b93a8", fontSize: 18, transform: isOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform .2s", flexShrink: 0 }}>▾</span>
+              <span style={{ color: "#94a3b8", fontSize: 18, transform: isOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform .2s", flexShrink: 0 }}>▾</span>
             </button>
 
             {isOpen && (
-              <div style={{ borderTop: "0.5px solid rgba(255,255,255,0.06)", padding: "16px 20px 20px" }}>
-                <p style={{ fontSize: 13, color: "#8b93a8", lineHeight: 1.7, marginBottom: 16 }}>{domeniu.desc}</p>
+              <div style={{ borderTop: "1px solid #dbeafe", padding: "16px 20px 20px", background: "#f0f7ff" }}>
+                <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.7, marginBottom: 16 }}>{domeniu.desc}</p>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8 }}>
                   {domeniu.profesii.map((prof) =>
                     prof.available && prof.href ? (
-                      <Link key={prof.name} href={prof.href} style={{ background: "#1c2333", borderRadius: 10, padding: "10px 14px", textDecoration: "none", display: "block", border: "0.5px solid rgba(79,142,247,0.3)", transition: "border-color .15s" }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#4f8ef7" }}>{prof.name}</div>
-                        <div style={{ fontSize: 11, color: "#8b93a8", marginTop: 2 }}>Explorează →</div>
+                      <Link key={prof.name} href={prof.href} style={{ background: "#fff", borderRadius: 10, padding: "10px 14px", textDecoration: "none", display: "block", border: "1px solid #bfdbfe", transition: "border-color .15s" }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#2563eb" }}>{prof.name}</div>
+                        <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>Explorează →</div>
                       </Link>
                     ) : (
-                      <div key={prof.name} style={{ background: "#1c2333", borderRadius: 10, padding: "10px 14px", opacity: 0.4 }}>
-                        <div style={{ fontSize: 13, fontWeight: 500, color: "#e8eaf0" }}>{prof.name}</div>
-                        <div style={{ fontSize: 11, color: "#5a6278", marginTop: 2 }}>În curând</div>
+                      <div key={prof.name} style={{ background: "#f8fafc", borderRadius: 10, padding: "10px 14px", opacity: 0.6, border: "1px solid #e2e8f0" }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: "#475569" }}>{prof.name}</div>
+                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>În curând</div>
                       </div>
                     )
                   )}
                 </div>
                 {hasAvailable && (
                   <div style={{ marginTop: 16 }}>
-                    <Link href="/planuri" style={{ background: "#4f8ef7", color: "#fff", borderRadius: 9, padding: "10px 20px", fontSize: 13, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
+                    <Link href="/planuri" style={{ background: "#2563eb", color: "#fff", borderRadius: 9, padding: "10px 20px", fontSize: 13, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
                       Deblochează domeniul →
                     </Link>
                   </div>

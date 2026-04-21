@@ -110,8 +110,8 @@ export default function HomePage() {
               <Link href="/experienta-vr" className="bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-50 transition-colors text-base">
                 ① Intră în experiența VR
               </Link>
-              <Link href="/cum-functioneaza" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-primary transition-colors text-base">
-                ② Vezi cum funcționează
+              <Link href="/gaseste-ti-directia" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-primary transition-colors text-base">
+                ② Găsește-ți direcția
               </Link>
             </div>
           </div>
@@ -121,22 +121,59 @@ export default function HomePage() {
       {/* Questions — animated gradient section */}
       <AnimatedQuestions />
 
-      {/* Image grid */}
+      {/* Image grid — profesii */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="section-title text-center mb-3">Explorează prin experiențe reale</h2>
           <p className="text-center text-gray-500 text-sm mb-10">Intră virtual în orice profesie înainte să o alegi.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {[
-              { img: "https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80", label: "Ochelari VR — educație imersivă", href: "/experienta-vr" },
-              { img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80", label: "Simulare profesie medicală", href: "/profesii/profesor" },
-              { img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80", label: "Explorare carieră în educație", href: "/gaseste-ti-directia" },
+              { img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80", label: "Medic", desc: "Salvează vieți în fiecare zi", href: "/experienta-vr" },
+              { img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80", label: "Arhitect", desc: "Proiectează viitorul orașului", href: "/experienta-vr" },
+              { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80", label: "Programator", desc: "Construiește lumea digitală", href: "/experienta-vr" },
+              { img: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=600&q=80", label: "Profesor", desc: "Formează generații întregi", href: "/profesii/profesor" },
+              { img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80", label: "Psiholog", desc: "Ajuți mintea să se vindece", href: "/experienta-vr" },
+              { img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80", label: "Antreprenor", desc: "Îți construiești propria viziune", href: "/experienta-vr" },
             ].map((item) => (
-              <Link key={item.label} href={item.href} className="relative aspect-video rounded-2xl overflow-hidden group block">
+              <Link key={item.label} href={item.href} className="relative rounded-2xl overflow-hidden group block" style={{ aspectRatio: "4/3" }}>
                 <img src={item.img} alt={item.label} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <p className="absolute bottom-4 left-4 right-4 text-white font-semibold text-sm leading-snug">{item.label}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                <div className="absolute bottom-3 left-3 right-3">
+                  <p className="text-white font-bold text-sm">{item.label}</p>
+                  <p className="text-white/80 text-xs">{item.desc}</p>
+                </div>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recenzii */}
+      <section className="py-16 px-4" style={{ background: "#eff6ff" }}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="section-title text-center mb-3">Ce spun utilizatorii</h2>
+          <p className="text-center text-gray-500 text-sm mb-10">Mii de tineri și-au descoperit cariera cu Profesia 360.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 18 }}>
+            {[
+              { nume: "Andreea M.", varsta: "17 ani, elevă", text: "Nu știam dacă să merg spre medicină sau psihologie. După simularea de pe Profesia 360, am înțeles că îmi doresc cu adevărat să lucrez cu oamenii, nu cu boli. Am ales psihologia și sunt sigură că e decizia corectă.", avatar: "AM", culoare: "#dbeafe" },
+              { nume: "Radu T.", varsta: "19 ani, student anul 1", text: "Înainte să intru la facultate am folosit platforma să testez simularea de programator. A fost revelator — am văzut că îmi place să rezolv probleme. Am ales Informatică și nu regret.", avatar: "RT", culoare: "#ede9fe" },
+              { nume: "Maria P.", varsta: "35 ani, în reconversie", text: "După 10 ani în contabilitate voiam o schimbare. Simularea de UX Designer m-a convins că e domeniul potrivit. Acum urmez cursuri și simt că în sfârșit fac ce-mi place.", avatar: "MP", culoare: "#dcfce7" },
+              { nume: "Bogdan V.", varsta: "22 ani, proaspăt absolvent", text: "Eram pierdut după facultate. Simularea de antreprenor mi-a arătat că am un profil de fondator, nu de angajat. Am lansat un mic business și merg înainte.", avatar: "BV", culoare: "#fef9c3" },
+              { nume: "Prof. coordonator", varsta: "Liceu Teoretic, Cluj", text: "Am folosit platforma cu 30 de elevi de clasa a XI-a. Discuțiile după simulări au fost extraordinare — elevii au vorbit deschis despre ce vor să facă cu viața lor.", avatar: "PC", culoare: "#ffe4e6" },
+            ].map((r) => (
+              <div key={r.nume} style={{ background: r.culoare, borderRadius: 16, padding: 22, border: "1px solid rgba(37,99,235,0.1)" }}>
+                <div style={{ display: "flex", marginBottom: 10 }}>
+                  {"★★★★★".split("").map((s, j) => <span key={j} style={{ color: "#f59e0b", fontSize: 16 }}>{s}</span>)}
+                </div>
+                <p style={{ fontSize: 13, color: "#1e293b", lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>"{r.text}"</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 12 }}>{r.avatar}</div>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}>{r.nume}</div>
+                    <div style={{ fontSize: 11, color: "#64748b" }}>{r.varsta}</div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

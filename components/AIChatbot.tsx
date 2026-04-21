@@ -60,14 +60,14 @@ export default function AIChatbot() {
         <div style={{
           position: "fixed", bottom: 90, right: 24, zIndex: 1000,
           width: 340, height: 480,
-          background: "#161b26", border: "0.5px solid rgba(255,255,255,0.15)",
+          background: "#fff", border: "1px solid #bfdbfe",
           borderRadius: 16, display: "flex", flexDirection: "column",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)", fontFamily: "sans-serif",
+          boxShadow: "0 20px 60px rgba(37,99,235,0.2)", fontFamily: "sans-serif",
         }}>
           {/* Header */}
-          <div style={{ padding: "14px 16px", borderBottom: "0.5px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontWeight: 600, fontSize: 14, color: "#e8eaf0" }}>🤖 Asistent Profesia 360</span>
-            <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", color: "#8b93a8", cursor: "pointer", fontSize: 20, lineHeight: 1 }}>×</button>
+          <div style={{ padding: "14px 16px", borderBottom: "1px solid #dbeafe", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#eff6ff", borderRadius: "16px 16px 0 0" }}>
+            <span style={{ fontWeight: 600, fontSize: 14, color: "#1e293b" }}>🤖 Asistent Profesia 360</span>
+            <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", color: "#64748b", cursor: "pointer", fontSize: 20, lineHeight: 1 }}>×</button>
           </div>
 
           {/* Messages */}
@@ -75,28 +75,30 @@ export default function AIChatbot() {
             {messages.map((m, i) => (
               <div key={i} style={{
                 alignSelf: m.role === "user" ? "flex-end" : "flex-start",
-                background: m.role === "user" ? "#4f8ef7" : "#1c2333",
-                color: "#e8eaf0", borderRadius: 10, padding: "9px 13px",
+                background: m.role === "user" ? "#2563eb" : "#eff6ff",
+                color: m.role === "user" ? "#fff" : "#1e293b",
+                border: m.role === "user" ? "none" : "1px solid #bfdbfe",
+                borderRadius: 10, padding: "9px 13px",
                 fontSize: 13, lineHeight: 1.6, maxWidth: "85%",
               }}>{m.text}</div>
             ))}
-            {loading && <div style={{ alignSelf: "flex-start", color: "#8b93a8", fontSize: 13 }}>Se gândește…</div>}
+            {loading && <div style={{ alignSelf: "flex-start", color: "#64748b", fontSize: 13 }}>Se gândește…</div>}
             <div ref={bottomRef} />
           </div>
 
           {/* Input */}
-          <div style={{ padding: 12, borderTop: "0.5px solid rgba(255,255,255,0.08)", display: "flex", gap: 8 }}>
+          <div style={{ padding: 12, borderTop: "1px solid #dbeafe", display: "flex", gap: 8 }}>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="Scrie un mesaj…"
               style={{
-                flex: 1, background: "#1c2333", border: "0.5px solid rgba(255,255,255,0.1)",
-                borderRadius: 8, padding: "8px 12px", color: "#e8eaf0", fontSize: 13, outline: "none",
+                flex: 1, background: "#f8fafc", border: "1px solid #bfdbfe",
+                borderRadius: 8, padding: "8px 12px", color: "#1e293b", fontSize: 13, outline: "none",
               }}
             />
-            <button onClick={send} style={{ background: "#4f8ef7", border: "none", borderRadius: 8, padding: "8px 14px", color: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 700 }}>→</button>
+            <button onClick={send} style={{ background: "#2563eb", border: "none", borderRadius: 8, padding: "8px 14px", color: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 700 }}>→</button>
           </div>
         </div>
       )}

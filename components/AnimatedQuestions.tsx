@@ -25,18 +25,19 @@ function QuestionCard({ q, delay }: { q: { icon: string; text: string }; delay: 
     <div
       ref={ref}
       style={{
-        background: "rgba(255,255,255,0.07)",
-        border: "0.5px solid rgba(255,255,255,0.15)",
+        background: "rgba(255,255,255,0.85)",
+        border: "1px solid #bfdbfe",
         borderRadius: 14,
         padding: "22px 18px",
         textAlign: "center",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",
         transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+        boxShadow: "0 4px 16px rgba(37,99,235,0.1)",
       }}
     >
       <div style={{ fontSize: 28, marginBottom: 12 }}>{q.icon}</div>
-      <p style={{ color: "#e8eaf0", fontSize: 14, lineHeight: 1.7, fontWeight: 500 }}>{q.text}</p>
+      <p style={{ color: "#1e293b", fontSize: 14, lineHeight: 1.7, fontWeight: 500 }}>{q.text}</p>
     </div>
   );
 }
@@ -44,7 +45,7 @@ function QuestionCard({ q, delay }: { q: { icon: string; text: string }; delay: 
 export default function AnimatedQuestions() {
   return (
     <section style={{
-      background: "linear-gradient(-45deg, #0f1117, #1a2a4a, #0f2a1a, #1a0f2a)",
+      background: "linear-gradient(-45deg, #dbeafe, #e0e7ff, #ede9fe, #dbeafe)",
       backgroundSize: "400% 400%",
       animation: "gradientShift 8s ease infinite",
       padding: "72px 16px",
