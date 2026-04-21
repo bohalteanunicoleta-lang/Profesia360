@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   { href: "/", label: "Acasă" },
-  { href: "/#despre-noi", label: "Despre noi" },
+  { href: "/despre-noi", label: "Despre noi" },
   { href: "/gaseste-ti-directia", label: "Găsește-ți direcția" },
   { href: "/ghid-cariera", label: "Ghid carieră" },
   { href: "/contact", label: "Contact" },
@@ -13,6 +14,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
@@ -37,14 +39,23 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* CTA + mobile toggle */}
+          {/* Auth CTA + mobile toggle */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/gaseste-ti-directia"
-              className="hidden sm:inline-flex btn-primary text-sm"
-            >
-              Începe gratuit
-            </Link>
+            {session ? (
+              <div className="hidden sm:flex items-center gap-3">
+                <span className="text-sm text-gray-600 font-medium">{session.user?.name}</span>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="btn-primary text-sm"
+                >
+                  Ieși din cont
+                </button>
+              </div>
+            ) : (
+              <Link href="/autentificare" className="hidden sm:inline-flex btn-primary text-sm">
+                Intră în cont
+              </Link>
+            )}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               onClick={() => setOpen(!open)}
@@ -76,13 +87,22 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-2">
-            <Link
-              href="/gaseste-ti-directia"
-              className="btn-primary text-sm block text-center"
-              onClick={() => setOpen(false)}
-            >
-              Începe gratuit
-            </Link>
+            {session ? (
+              <button
+                onClick={() => { signOut({ callbackUrl: "/" }); setOpen(false); }}
+                className="btn-primary text-sm block w-full text-center"
+              >
+                Ieși din cont
+              </button>
+            ) : (
+              <Link
+                href="/autentificare"
+                className="btn-primary text-sm block text-center"
+                onClick={() => setOpen(false)}
+              >
+                Intră în cont
+              </Link>
+            )}
           </div>
         </div>
       )}

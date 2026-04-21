@@ -2,56 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import VideoEmbed from "@/components/VideoEmbed";
 import GaleriePhoto from "@/components/GaleriePhoto";
+import DomeniiVR from "@/components/DomeniiVR";
 
 export const metadata: Metadata = {
   title: "Experiență VR — Profesia 360",
-  description:
-    "Simulează o zi reală în orice profesie prin experiențe VR interactive.",
+  description: "Simulează o zi reală în orice profesie prin experiențe VR interactive.",
 };
 
-const professions = [
-  { name: "Medic", icon: "🩺", available: true },
-  { name: "Arhitect", icon: "🏛️", available: true },
-  { name: "Programator", icon: "💻", available: true },
-  { name: "Avocat", icon: "⚖️", available: false },
-  { name: "Chef Bucătar", icon: "👨‍🍳", available: false },
-  { name: "Pilot", icon: "✈️", available: false },
-];
-
 const features = [
-  {
-    icon: "🎯",
-    title: "Activități reale",
-    desc: "Parcurgi activitățile specifice profesiei alese, exact cum se desfășoară în realitate.",
-  },
-  {
-    icon: "🎬",
-    title: "Preview video explicativ",
-    desc: "Vizionezi materiale video introductive gratuite pentru orice profesie.",
-  },
-  {
-    icon: "📋",
-    title: "Fișă de simulare",
-    desc: "Primești o fișă detaliată cu sarcinile, programul și provocările meseriei.",
-  },
-  {
-    icon: "🤖",
-    title: "Feedback cu AI",
-    desc: "După rezolvarea sarcinilor, primești feedback instant generat cu inteligență artificială.",
-  },
-  {
-    icon: "👨‍💼",
-    title: "Sesiune 1-1 cu profesionist",
-    desc: "Discută 30 de minute cu un expert din domeniu (disponibil în Plan Pro).",
-  },
-  {
-    icon: "🔓",
-    title: "Deblochează experiența completă",
-    desc: "Alege un plan și accesezi simularea completă, fără restricții.",
-  },
+  { icon: "🎯", title: "Activități reale", desc: "Parcurgi activitățile specifice profesiei alese, exact cum se desfășoară în realitate." },
+  { icon: "🎬", title: "Preview video explicativ", desc: "Vizionezi materiale video introductive gratuite pentru orice profesie." },
+  { icon: "📋", title: "Fișă de simulare", desc: "Primești o fișă detaliată cu sarcinile, programul și provocările meseriei." },
+  { icon: "🤖", title: "Feedback cu AI", desc: "După rezolvarea sarcinilor, primești feedback instant generat cu inteligență artificială." },
+  { icon: "👨‍💼", title: "Sesiune 1-1 cu profesionist", desc: "Discută 30 de minute cu un expert din domeniu (disponibil în Plan Pro)." },
+  { icon: "🔓", title: "Deblochează experiența completă", desc: "Alege un plan și accesezi simularea completă, fără restricții." },
 ];
 
-// Înlocuiește cu URL-ul real al videoclipului demo al platformei (YouTube sau Vimeo)
 const VIDEO_DEMO = "";
 
 export default function ExperientaVRPage() {
@@ -63,13 +29,10 @@ export default function ExperientaVRPage() {
           <div className="inline-block bg-white bg-opacity-20 rounded-2xl px-5 py-2 mb-6">
             <span className="text-white text-sm font-semibold">◉ Simulează o zi reală</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-            Experiența VR
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">Experiența VR</h1>
           <p className="text-lg text-primary-100 leading-relaxed max-w-2xl mx-auto mb-10">
-            Intră virtual în orice profesie. Parcurge activitățile reale, primește
-            feedback personalizat și decide dacă acea meserie ți se potrivește — fără
-            să pierzi timp sau bani.
+            Intră virtual în orice profesie. Parcurge activitățile reale, primește feedback personalizat și
+            decide dacă acea meserie ți se potrivește — fără să pierzi timp sau bani.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/gaseste-ti-directia" className="bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-50 transition-colors">
@@ -104,9 +67,7 @@ export default function ExperientaVRPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="section-title text-center mb-3">Demo platformă</h2>
-          <p className="text-center text-gray-500 text-sm mb-8">
-            Urmărește cum funcționează experiența VR în Profesia 360.
-          </p>
+          <p className="text-center text-gray-500 text-sm mb-8">Urmărește cum funcționează experiența VR în Profesia 360.</p>
           <VideoEmbed url={VIDEO_DEMO} titlu="Demo experiență VR — Profesia 360" />
         </div>
       </section>
@@ -115,38 +76,19 @@ export default function ExperientaVRPage() {
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="section-title text-center mb-3">Din platforma noastră</h2>
-          <p className="text-center text-gray-500 text-sm mb-8">
-            Click pe orice imagine pentru a o vedea mărită.
-          </p>
+          <p className="text-center text-gray-500 text-sm mb-8">Click pe orice imagine pentru a o vedea mărită.</p>
           <GaleriePhoto />
         </div>
       </section>
 
-      {/* Professions grid */}
+      {/* Domenii expandabile */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="section-title text-center mb-3">Profesii disponibile</h2>
+        <div className="max-w-4xl mx-auto">
+          <h2 className="section-title text-center mb-3">Explorează după domeniu</h2>
           <p className="text-center text-gray-500 text-sm mb-10">
-            Explorează, simulează și descoperă — noi profesii sunt adăugate continuu.
+            Alege un domeniu pentru a vedea toate profesiile disponibile. Noi domenii sunt adăugate continuu.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {professions.map((prof) => (
-              <div
-                key={prof.name}
-                className={`card text-center cursor-pointer hover:shadow-md transition-all ${
-                  prof.available
-                    ? "border-primary-100 hover:border-primary"
-                    : "opacity-50 cursor-not-allowed"
-                }`}
-              >
-                <div className="text-3xl mb-2">{prof.icon}</div>
-                <p className="text-xs font-semibold text-gray-800">{prof.name}</p>
-                {!prof.available && (
-                  <span className="text-xs text-gray-400 mt-1 block">În curând</span>
-                )}
-              </div>
-            ))}
-          </div>
+          <DomeniiVR />
         </div>
       </section>
 
@@ -177,13 +119,10 @@ export default function ExperientaVRPage() {
                 </svg>
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-gray-900 text-lg mb-1">
-                  Discută cu un profesionist
-                </h3>
+                <h3 className="font-bold text-gray-900 text-lg mb-1">Discută cu un profesionist</h3>
                 <p className="text-sm text-gray-500 mb-1">Disponibil în Planul Pro</p>
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                  Rezervă o sesiune de 30 de minute cu un expert din domeniu.
-                  Selectează ziua și intervalul orar care ți se potrivesc.
+                  Rezervă o sesiune de 30 de minute cu un expert din domeniu. Selectează ziua și intervalul orar care ți se potrivesc.
                 </p>
                 <div className="grid sm:grid-cols-3 gap-3 mb-5">
                   <div className="bg-gray-50 rounded-xl p-3 text-center">
@@ -199,9 +138,7 @@ export default function ExperientaVRPage() {
                     <p className="font-semibold text-primary text-sm">Plan Pro</p>
                   </div>
                 </div>
-                <Link href="/gaseste-ti-directia" className="btn-primary text-sm inline-block">
-                  Rezervă sesiunea
-                </Link>
+                <Link href="/gaseste-ti-directia" className="btn-primary text-sm inline-block">Rezervă sesiunea</Link>
               </div>
             </div>
           </div>
@@ -211,14 +148,11 @@ export default function ExperientaVRPage() {
       {/* Start simulation CTA */}
       <section className="py-16 px-4 bg-primary">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Începe simularea completă
-          </h2>
+          <h2 className="text-3xl font-bold text-white mb-4">Începe simularea completă</h2>
           <p className="text-primary-100 mb-8 text-sm leading-relaxed">
-            Alege planul potrivit și explorează orice profesie virtual — activități,
-            video, experiență VR și feedback cu AI.
+            Alege planul potrivit și explorează orice profesie virtual — activități, video, experiență VR și feedback cu AI.
           </p>
-          <Link href="/gaseste-ti-directia" className="bg-white text-primary font-bold px-10 py-4 rounded-full hover:bg-primary-50 transition-colors inline-block">
+          <Link href="/planuri" className="bg-white text-primary font-bold px-10 py-4 rounded-full hover:bg-primary-50 transition-colors inline-block">
             Alege planul tău
           </Link>
         </div>
