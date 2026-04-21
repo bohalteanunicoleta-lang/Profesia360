@@ -74,6 +74,8 @@ export default function ProfesorPage() {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   const userPlan: string = "free"; // "free" | "pro" | "premium"
 
+  const SIM_URL = "https://claude.ai/public/artifacts/8f776cee-0b42-4358-988b-8ba69efc327d";
+
   if (showSim) {
     return (
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 16px 60px" }}>
@@ -84,10 +86,23 @@ export default function ProfesorPage() {
           ← Înapoi
         </button>
         <iframe
-          src="/teacher-simulation.html"
-          style={{ width: "100%", height: "90vh", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 12 }}
-          title="Simulare Profesor"
+          src={SIM_URL}
+          style={{ width: "100%", height: "90vh", border: "none", borderRadius: 12 }}
+          title="Simulare interactivă — O zi ca profesor"
+          allow="fullscreen"
         />
+        {/* Fallback vizibil dacă iframe-ul e blocat de X-Frame-Options */}
+        <div style={{ marginTop: 16, textAlign: "center" }}>
+          <a
+            href={SIM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "inline-block", background: "#4f8ef7", color: "#fff", padding: "14px 32px", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+          >
+            Deschide simularea completă →
+          </a>
+          <p style={{ fontSize: 11, color: "#5a6278", marginTop: 8 }}>* Se deschide într-o fereastră nouă</p>
+        </div>
       </div>
     );
   }
