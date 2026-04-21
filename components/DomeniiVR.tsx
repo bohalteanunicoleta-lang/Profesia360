@@ -9,9 +9,9 @@ const DOMENII = [
     title: "Medical & Sănătate",
     desc: "Explorează meserii din sfera medicală — de la medicul generalist la chirurg, asistent medical sau farmacist.",
     profesii: [
-      { name: "Medic generalist", available: true },
-      { name: "Chirurg", available: true },
-      { name: "Asistent medical", available: true },
+      { name: "Medic generalist", available: true, href: "/profesii/medic" },
+      { name: "Chirurg", available: true, href: "/profesii/chirurg" },
+      { name: "Asistent medical", available: true, href: "/profesii/asistent-medical" },
       { name: "Farmacist", available: false },
       { name: "Stomatolog", available: false },
     ],
@@ -22,8 +22,8 @@ const DOMENII = [
     title: "Tehnologie & IT",
     desc: "Programator, designer UX, specialist în securitate cibernetică sau data scientist — află care ți se potrivește.",
     profesii: [
-      { name: "Programator", available: true },
-      { name: "Designer UX/UI", available: true },
+      { name: "Programator", available: true, href: "/profesii/programator" },
+      { name: "Designer UX/UI", available: true, href: "/profesii/designer-ux" },
       { name: "Data Scientist", available: false },
       { name: "Cyber Security", available: false },
       { name: "DevOps Engineer", available: false },
@@ -35,7 +35,7 @@ const DOMENII = [
     title: "Arhitectură & Design",
     desc: "Cum arată să proiectezi spații, clădiri și experiențe vizuale? Descoperă în 360°.",
     profesii: [
-      { name: "Arhitect", available: true },
+      { name: "Arhitect", available: true, href: "/profesii/arhitect" },
       { name: "Designer interior", available: false },
       { name: "Urbanist", available: false },
     ],
@@ -46,7 +46,7 @@ const DOMENII = [
     title: "Educație & Formare",
     desc: "Profesor, trainer corporativ sau consilier de orientare — meserii care modelează viitorul.",
     profesii: [
-      { name: "Profesor", available: true },
+      { name: "Profesor", available: true, href: "/profesii/profesor" },
       { name: "Trainer corporativ", available: false },
       { name: "Consilier orientare", available: false },
     ],
@@ -104,12 +104,19 @@ export default function DomeniiVR() {
               <div style={{ borderTop: "0.5px solid rgba(255,255,255,0.06)", padding: "16px 20px 20px" }}>
                 <p style={{ fontSize: 13, color: "#8b93a8", lineHeight: 1.7, marginBottom: 16 }}>{domeniu.desc}</p>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8 }}>
-                  {domeniu.profesii.map((prof) => (
-                    <div key={prof.name} style={{ background: "#1c2333", borderRadius: 10, padding: "10px 14px", opacity: prof.available ? 1 : 0.45, position: "relative" }}>
-                      <div style={{ fontSize: 13, fontWeight: 500, color: "#e8eaf0" }}>{prof.name}</div>
-                      {!prof.available && <div style={{ fontSize: 11, color: "#5a6278", marginTop: 2 }}>În curând</div>}
-                    </div>
-                  ))}
+                  {domeniu.profesii.map((prof) =>
+                    prof.available && prof.href ? (
+                      <Link key={prof.name} href={prof.href} style={{ background: "#1c2333", borderRadius: 10, padding: "10px 14px", textDecoration: "none", display: "block", border: "0.5px solid rgba(79,142,247,0.3)", transition: "border-color .15s" }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#4f8ef7" }}>{prof.name}</div>
+                        <div style={{ fontSize: 11, color: "#8b93a8", marginTop: 2 }}>Explorează →</div>
+                      </Link>
+                    ) : (
+                      <div key={prof.name} style={{ background: "#1c2333", borderRadius: 10, padding: "10px 14px", opacity: 0.4 }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: "#e8eaf0" }}>{prof.name}</div>
+                        <div style={{ fontSize: 11, color: "#5a6278", marginTop: 2 }}>În curând</div>
+                      </div>
+                    )
+                  )}
                 </div>
                 {hasAvailable && (
                   <div style={{ marginTop: 16 }}>
