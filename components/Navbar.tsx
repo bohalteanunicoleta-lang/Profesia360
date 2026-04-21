@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/", label: "Acasă" },
   { href: "/despre-noi", label: "Despre noi" },
   { href: "/gaseste-ti-directia", label: "Găsește-ți direcția" },
+  { href: "/chestionar", label: "Chestionar" },
   { href: "/ghid-cariera", label: "Ghid carieră" },
   { href: "/contact", label: "Contact" },
 ];

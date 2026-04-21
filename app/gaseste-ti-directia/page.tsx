@@ -74,8 +74,31 @@ export default function GasesteDirectiaPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="section-title text-center mb-3">Chestionar de orientare</h2>
           <p className="text-center text-gray-500 mb-8 text-sm">
-            Selectează unul dintre testele validate de mai jos pentru a-ți descoperi profilul profesional:
+            Răspunde la 20 de întrebări și descoperă ce profesii ți se potrivesc — analiză AI instantă.
           </p>
+
+          {/* Card principal chestionar propriu */}
+          <a href="/chestionar" style={{ display: "block", background: "linear-gradient(135deg, #dbeafe, #ede9fe)", border: "1.5px solid #2563eb", borderRadius: 16, padding: 28, textDecoration: "none", marginBottom: 24, transition: "transform 0.2s" }}>
+            <div style={{ fontSize: 36, marginBottom: 12 }}>🧭</div>
+            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#1e3a5f", marginBottom: 8 }}>
+              Chestionar de orientare în carieră
+            </h3>
+            <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 16 }}>
+              Răspunde la 20 de întrebări și află ce profesii ți se potrivesc cel mai bine.
+              Analiza este făcută de inteligență artificială și durează sub 5 minute.
+            </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+              {["20 întrebări", "Scala 1-5", "Analiză AI", "Recomandări personalizate"].map((tag) => (
+                <span key={tag} style={{ fontSize: 11, background: "#fff", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 20, padding: "3px 10px", fontWeight: 600 }}>{tag}</span>
+              ))}
+            </div>
+            <span style={{ display: "inline-block", background: "linear-gradient(135deg, #2563eb, #7c3aed)", color: "#fff", borderRadius: 8, padding: "10px 24px", fontSize: 14, fontWeight: 600 }}>
+              Începe chestionarul →
+            </span>
+          </a>
+
+          {/* Teste externe (păstrate ca resurse suplimentare) */}
+          <p className="text-sm text-gray-500 mb-4 font-medium">Sau încearcă și teste externe validate:</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {externalTests.map((test) => (
               <a

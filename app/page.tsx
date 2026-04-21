@@ -312,10 +312,11 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-10 grid sm:grid-cols-2 gap-4 text-left">
-            <div className="card border-l-4 border-primary">
-              <p className="text-sm font-semibold text-gray-700">🎯 Teste de carieră / orientare profesională</p>
-              <p className="text-xs text-gray-500 mt-1">Primești 1, 2 sau 3 profesii recomandate în funcție de răspunsurile tale.</p>
-            </div>
+            <a href="/chestionar" className="card border-l-4 border-primary hover:shadow-md transition-shadow" style={{ textDecoration: "none" }}>
+              <p className="text-sm font-semibold text-gray-700">🎯 Chestionar de orientare profesională</p>
+              <p className="text-xs text-gray-500 mt-1">20 întrebări, analiză AI, profesii recomandate personalizat. Durează sub 5 minute.</p>
+              <p className="text-xs text-blue-600 font-semibold mt-2">Începe chestionarul →</p>
+            </a>
             <div className="card border-l-4 border-primary">
               <p className="text-sm font-semibold text-gray-700">📚 Zonă cu sfaturi pentru carieră</p>
               <p className="text-xs text-gray-500 mt-1">Cum să-ți construiești un CV, cum să te prezinți la un interviu și multe altele.</p>
