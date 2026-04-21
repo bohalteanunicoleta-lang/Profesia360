@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PlanButton from "@/components/PlanButton";
+import AnimatedQuestions from "@/components/AnimatedQuestions";
 
 const questions = [
   { text: "Ești proaspăt absolvent și nu știi încotro să te îndrepți pe piața muncii?" },
@@ -117,22 +118,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Questions */}
+      {/* Questions — animated gradient section */}
+      <AnimatedQuestions />
+
+      {/* Image grid */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {questions.map((q, i) => (
-              <div key={i} className="card text-center hover:shadow-md hover:border-primary-100 transition-shadow">
-                <div className="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-primary font-bold text-sm">{i + 1}</span>
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed font-medium">{q.text}</p>
-              </div>
+          <h2 className="section-title text-center mb-3">Explorează prin experiențe reale</h2>
+          <p className="text-center text-gray-500 text-sm mb-10">Intră virtual în orice profesie înainte să o alegi.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {[
+              { img: "https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80", label: "Ochelari VR — educație imersivă", href: "/experienta-vr" },
+              { img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80", label: "Simulare profesie medicală", href: "/profesii/profesor" },
+              { img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80", label: "Explorare carieră în educație", href: "/gaseste-ti-directia" },
+            ].map((item) => (
+              <Link key={item.label} href={item.href} className="relative aspect-video rounded-2xl overflow-hidden group block">
+                <img src={item.img} alt={item.label} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <p className="absolute bottom-4 left-4 right-4 text-white font-semibold text-sm leading-snug">{item.label}</p>
+              </Link>
             ))}
           </div>
-          <p className="text-center text-primary font-semibold mt-10 text-lg uppercase tracking-wide">
-            La Profesia 360 poți explora profesiile pe care ți le dorești.
-          </p>
         </div>
       </section>
 
@@ -236,31 +242,36 @@ export default function HomePage() {
       </section>
 
       {/* Pachete Pro Elev */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Pachete Pro Elev*</h2>
-          <p className="text-sm text-gray-500 mb-8">Prețuri speciale pentru elevi cu card de elev sau adresă de email instituțională.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="card flex-1 text-center hover:shadow-md transition-shadow">
-              <div className="text-3xl font-extrabold text-primary mb-1">119 lei</div>
-              <div className="text-gray-600 text-sm mb-2">2 profesii</div>
-              <ul className="text-xs text-gray-500 mb-4 space-y-1 text-left">
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Acces VR complet la 2 profesii</li>
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Feedback personalizat</li>
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Raport compatibilitate</li>
+          <p className="text-sm text-gray-500 mb-10">Prețuri speciale pentru elevi cu card de elev sau adresă de email instituțională.</p>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            {/* Pachet 2 profesii */}
+            <div style={{ flex: 1, background: "linear-gradient(135deg, #1a3a5c, #0f2a4a)", border: "1.5px solid #4f8ef7", borderRadius: 18, padding: 28, position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 14, right: 14, background: "#4f8ef7", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20 }}>PRO ELEV</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>🎓</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#4f8ef7", marginBottom: 4 }}>119 lei</div>
+              <div style={{ color: "#8b93a8", fontSize: 13, marginBottom: 16 }}>2 profesii</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 8, textAlign: "left" }}>
+                {["Acces VR complet la 2 profesii", "Feedback personalizat", "Raport compatibilitate"].map(f => (
+                  <li key={f} style={{ fontSize: 13, color: "#c8d4e8", display: "flex", gap: 8 }}><span style={{ color: "#4f8ef7" }}>✓</span>{f}</li>
+                ))}
               </ul>
-              <PlanButton planKey="pro-elev-2" label="Alege pachetul" className="btn-primary text-sm w-full cursor-pointer border-0" />
+              <PlanButton planKey="pro-elev-2" label="Alege pachetul" className="w-full cursor-pointer border-0 py-2.5 px-4 rounded-full text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600" />
             </div>
-            <div className="card flex-1 text-center border-2 border-primary hover:shadow-md transition-shadow">
-              <div className="text-3xl font-extrabold text-primary mb-1">149 lei</div>
-              <div className="text-gray-600 text-sm mb-2">3 profesii</div>
-              <ul className="text-xs text-gray-500 mb-4 space-y-1 text-left">
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Acces VR complet la 3 profesii</li>
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Feedback personalizat extins</li>
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Raport carieră complet</li>
-                <li className="flex gap-1.5"><span className="text-primary">✓</span>Prioritate suport</li>
+            {/* Pachet 3 profesii */}
+            <div style={{ flex: 1, background: "linear-gradient(135deg, #3a1a5c, #2a0f4a)", border: "1.5px solid #7c6df8", borderRadius: 18, padding: 28, position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 14, right: 14, background: "#7c6df8", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20 }}>PRO ELEV</div>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>🚀</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#7c6df8", marginBottom: 4 }}>149 lei</div>
+              <div style={{ color: "#8b93a8", fontSize: 13, marginBottom: 16 }}>3 profesii</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 8, textAlign: "left" }}>
+                {["Acces VR complet la 3 profesii", "Feedback personalizat extins", "Raport carieră complet", "Prioritate suport"].map(f => (
+                  <li key={f} style={{ fontSize: 13, color: "#c8d4e8", display: "flex", gap: 8 }}><span style={{ color: "#7c6df8" }}>✓</span>{f}</li>
+                ))}
               </ul>
-              <PlanButton planKey="pro-elev-3" label="Alege pachetul" className="btn-primary text-sm w-full cursor-pointer border-0" />
+              <PlanButton planKey="pro-elev-3" label="Alege pachetul" className="w-full cursor-pointer border-0 py-2.5 px-4 rounded-full text-sm font-semibold text-white bg-violet-500 hover:bg-violet-600" />
             </div>
           </div>
           <div className="mt-10 grid sm:grid-cols-2 gap-4 text-left">

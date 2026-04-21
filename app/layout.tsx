@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
+import AIChatbot from "@/components/AIChatbot";
 
 export const metadata: Metadata = {
   title: "Profesia 360 — Descoperă-ți cariera ideală",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <AIChatbot />
         </Providers>
       </body>
     </html>
