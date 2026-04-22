@@ -26,12 +26,18 @@ const GRADE_COLOR: Record<string, string> = {
 
 export default function RezultateMelePage() {
   const [results, setResults] = useState<SimResult[]>([]);
+  const [streak, setStreak] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem("profesia360_results");
       setResults(raw ? JSON.parse(raw) : []);
+      const lastDay = localStorage.getItem("profesia360_last_day");
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      const s = parseInt(localStorage.getItem("profesia360_streak") ?? "0");
+      setStreak(lastDay === today || lastDay === yesterday ? s : 0);
     } catch {
       setResults([]);
     }
@@ -76,6 +82,19 @@ export default function RezultateMelePage() {
         </div>
       ) : (
         <>
+          {/* Banner streak */}
+          {streak > 0 && (
+            <div style={{ background: streak >= 7 ? "linear-gradient(135deg,#7c3aed,#2563eb)" : streak >= 3 ? "linear-gradient(135deg,#d97706,#dc2626)" : "linear-gradient(135deg,#059669,#0891b2)", borderRadius: 16, padding: "16px 20px", marginBottom: 20, display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ fontSize: 32 }}>{streak >= 7 ? "👑" : streak >= 3 ? "🔥" : "⚡"}</div>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>{streak} {streak === 1 ? "zi" : "zile"} consecutiv{streak === 1 ? "ă" : "e"}!</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
+                  {streak >= 7 ? "Ești în top 5% — performanță de mentor!" : streak >= 3 ? `Încă ${7 - streak} zile până la badge-ul 👑 Mentor` : "Continuă mâine pentru a-ți construi streak-ul!"}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Statistici globale */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 28 }}>
             {[
@@ -83,6 +102,7 @@ export default function RezultateMelePage() {
               { label: "Scor maxim", value: `${bestScore}/100`, color: "#059669" },
               { label: "Scor mediu", value: `${avgScore}/100`, color: "#7c3aed" },
               { label: "Mod greu", value: results.filter((r) => r.hardMode).length, color: "#dc2626" },
+              { label: "Streak zilnic", value: `${streak} 🔥`, color: "#d97706" },
             ].map((s) => (
               <div key={s.label} style={{ background: "#fff", border: "1px solid #dbeafe", borderRadius: 12, padding: 16, textAlign: "center" }}>
                 <div style={{ fontSize: 22, fontWeight: 800, color: s.color, marginBottom: 4 }}>{s.value}</div>

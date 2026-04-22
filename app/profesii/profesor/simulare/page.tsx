@@ -155,6 +155,15 @@ export default function SimularePage() {
       const entry = { date: new Date().toISOString(), totalScore, grade, label, completedTasks: s.completedTasks.length, totalTasks: TASKS.length, skills: s.skills, hardMode };
       const prev = JSON.parse(localStorage.getItem("profesia360_results") ?? "[]");
       localStorage.setItem("profesia360_results", JSON.stringify([...prev, entry]));
+      // Streak logic
+      const today = new Date().toDateString();
+      const lastDay = localStorage.getItem("profesia360_last_day");
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      const currentStreak = parseInt(localStorage.getItem("profesia360_streak") ?? "0");
+      if (lastDay === today) { /* same day, no change */ }
+      else if (lastDay === yesterday) { localStorage.setItem("profesia360_streak", String(currentStreak + 1)); }
+      else { localStorage.setItem("profesia360_streak", "1"); }
+      localStorage.setItem("profesia360_last_day", today);
     } catch { /* localStorage unavailable */ }
     setLoadingFeedback(true);
     fetch("/api/simulation/feedback", {
