@@ -251,9 +251,12 @@ export default function HomePage() {
           <Link href="/profesii/profesor" style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 100, padding: "16px 40px", fontSize: 16, fontWeight: 800, textDecoration: "none" }}>
             Încearcă simularea — e gratuit →
           </Link>
-          <div style={{ marginTop: 20 }}>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 20 }}>
             <Link href="/chestionar" style={{ color: "rgba(255,255,255,0.65)", fontSize: 13, textDecoration: "none" }}>
-              Sau completează chestionarul de orientare →
+              Completează chestionarul →
+            </Link>
+            <Link href="/onboarding" style={{ color: "rgba(255,255,255,0.65)", fontSize: 13, textDecoration: "none" }}>
+              Ești nou? Începe ghidat →
             </Link>
           </div>
         </div>
