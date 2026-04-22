@@ -2,126 +2,117 @@ import Link from "next/link";
 import PlanButton from "@/components/PlanButton";
 import AnimatedQuestions from "@/components/AnimatedQuestions";
 
-const questions = [
-  { text: "Ești proaspăt absolvent și nu știi încotro să te îndrepți pe piața muncii?" },
-  { text: "Te-ai gândit să fii medic, profesor, programator sau arhitect — și nu știi dacă ți se potrivește?" },
-  { text: "Ești la capăt de drum cu sfaturile și ai nevoie de îndrumare din partea unui profesionist?" },
-  { text: "Ți-ai pierdut locul de muncă și vrei să încerci alte experiențe?" },
-];
-
-const plans = [
-  {
-    name: "Plan Basic",
-    price: "Gratuit",
-    color: "bg-yellow-100 border-yellow-300",
-    badge: "bg-yellow-400",
-    features: ["Acces la descriere", "Preview video", "Task demo", "Acces limitat la platformă"],
-    cta: "Explorează",
-    ctaStyle: "bg-yellow-500 hover:bg-yellow-600 text-white",
-    href: "/gaseste-ti-directia",
-    free: true,
-  },
-  {
-    name: "Plan Preview",
-    price: "69 lei",
-    duration: "15 zile",
-    color: "bg-green-50 border-green-300",
-    badge: "bg-green-500",
-    features: ["Experiență VR completă", "Acces complet", "Feedback detaliat"],
-    cta: "Deblochează experiența",
-    ctaStyle: "bg-primary hover:bg-primary-600 text-white",
-    planKey: "preview",
-  },
-  {
-    name: "Plan Pro",
-    price: "149 lei",
-    duration: "15 zile",
-    color: "bg-red-50 border-red-400",
-    badge: "bg-red-500",
-    features: ["Tot din Preview", "Sesiuni 1-1", "Feedback personalizat extins", "Întrebări directe către un expert"],
-    cta: "Rezervă sesiunile",
-    ctaStyle: "bg-red-600 hover:bg-red-700 text-white",
-    note: "Reducere pentru elevi 20%",
-    planKey: "pro",
-  },
-  {
-    name: "Plan Premium",
-    price: "179 lei",
-    duration: "15 zile",
-    color: "bg-orange-50 border-orange-400",
-    badge: "bg-orange-500",
-    features: ["Tot din Pro", "Acces toate profesiile premium", "Raport carieră complet", "Suport prioritar"],
-    cta: "Alege Premium",
-    ctaStyle: "bg-orange-500 hover:bg-orange-600 text-white",
-    planKey: "premium",
-  },
-  {
-    name: "Plan Domeniu Pass",
-    price: "149 lei",
-    color: "bg-purple-50 border-primary",
-    badge: "bg-primary",
-    features: ["Toate profesiile dintr-un domeniu", "Toate similarele pentru toate profesiile", "Acces complet VR pentru toate", "Toate task-urile", "Feedback și recomandare pentru fiecare profesie"],
-    cta: "Vreau să explorez un domeniu →",
-    ctaStyle: "bg-primary hover:bg-primary-600 text-white",
-    planKey: "domeniu-pass",
-  },
-  {
-    name: "Plan Domeniu Pro",
-    price: "299 lei",
-    duration: "30 zile",
-    color: "bg-indigo-50 border-indigo-400",
-    badge: "bg-indigo-600",
-    features: ["Tot din Domeniu Pass", "O sesiune one-to-one (30 minute)", "Feedback personalizat extins", "Recomandări directe de la experți"],
-    cta: "Intru serios în carieră →",
-    ctaStyle: "bg-indigo-600 hover:bg-indigo-700 text-white",
-    planKey: "domeniu-pro",
-  },
-];
-
 export default function HomePage() {
   return (
     <>
-      {/* Hero cu video de fundal */}
-      <section className="relative min-h-[88vh] flex items-center overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/hero-bg.jpg"
-          className="absolute inset-0 w-full h-full object-cover"
-        >
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        <video autoPlay muted loop playsInline poster="/hero-bg.jpg"
+          className="absolute inset-0 w-full h-full object-cover">
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-primary" style={{ opacity: 0.70 }} />
+        <div className="absolute inset-0 bg-primary" style={{ opacity: 0.73 }} />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
           <div className="max-w-2xl">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
-              Descoperă-ți{" "}
-              <span className="text-yellow-300">cariera ideală</span>{" "}
-              prin experiențe VR
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: 24 }}>
+              <span style={{ fontSize: 13 }}>⭐⭐⭐⭐⭐</span>
+              <span style={{ color: "#fff", fontSize: 13, fontWeight: 500 }}>3.200 de tineri și-au descoperit vocația</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-5">
+              Înainte de a alege{" "}
+              <span className="text-yellow-300">40 de ani</span>,<br />
+              trăiește{" "}
+              <span className="text-yellow-300">15 minute</span>.
             </h1>
-            <p className="text-lg text-white/80 mb-10 leading-relaxed">
-              Profesia 360 este platforma care îți permite să explorezi sute de
-              meserii în mod virtual, interactiv și practic — înainte să faci o
-              alegere importantă.
+            <p className="text-lg mb-8 leading-relaxed" style={{ color: "rgba(255,255,255,0.85)", maxWidth: 500 }}>
+              Simulezi o zi reală de muncă. Primești feedback AI personalizat. Decizi în cunoștință de cauză — nu pe baza sfaturilor altora.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/experienta-vr" className="bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-primary-50 transition-colors text-base">
-                ① Intră în experiența VR
+              <Link href="/profesii/profesor" className="bg-white font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-colors text-base" style={{ color: "#2563eb" }}>
+                Încearcă gratuit — Simulare profesor →
               </Link>
-              <Link href="/gaseste-ti-directia" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-primary transition-colors text-base">
-                ② Găsește-ți direcția
-              </Link>
+              <a href="#cum-functioneaza" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white/10 transition-colors text-base">
+                Cum funcționează? (2 min)
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Questions — animated gradient section */}
+      {/* ── PROBLEMA ─────────────────────────────────────────────────── */}
       <AnimatedQuestions />
 
-      {/* Image grid — profesii */}
+      {/* ── CUM FUNCȚIONEAZĂ ─────────────────────────────────────────── */}
+      <section id="cum-functioneaza" className="py-20 px-4 bg-white">
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>◉ Simplu și concret</div>
+            <h2 style={{ fontSize: 32, fontWeight: 800, color: "#1e293b", marginBottom: 12 }}>Cum funcționează</h2>
+            <p style={{ color: "#64748b", fontSize: 15 }}>Trei pași. 15 minute. O decizie mai bună.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
+            {[
+              {
+                step: "01", icon: "🔍", color: "#dbeafe",
+                title: "Alegi o profesie",
+                desc: "Browse prin profesii organizate pe domenii. Fiecare are preview gratuit: context, o zi tipică, ce skill-uri folosești.",
+              },
+              {
+                step: "02", icon: "⚡", color: "#ede9fe",
+                title: "Trăiești o zi reală",
+                desc: "Simulezi 5-8 scenarii cu cronometru. Fiecare decizie are consecințe imediate și pe termen lung — ca în viața reală.",
+              },
+              {
+                step: "03", icon: "🎯", color: "#dcfce7",
+                title: "Primești raportul AI",
+                desc: "Analiză completă a skill-urilor tale, compatibilitate cu profesia și recomandări pentru profesii alternative.",
+              },
+            ].map((item) => (
+              <div key={item.step} style={{ background: item.color, borderRadius: 20, padding: 28 }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.1em", marginBottom: 12 }}>{item.step}</div>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>{item.icon}</div>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1e293b", marginBottom: 8 }}>{item.title}</h3>
+                <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 36 }}>
+            <Link href="/profesii/profesor" style={{ display: "inline-block", background: "#2563eb", color: "#fff", borderRadius: 100, padding: "14px 36px", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>
+              Încearcă simularea gratuită →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DE CE SUNTEM DIFERIȚI ─────────────────────────────────────── */}
+      <section style={{ background: "#f8fafc", padding: "80px 16px" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>◉ Diferențiator</div>
+            <h2 style={{ fontSize: 30, fontWeight: 800, color: "#1e293b" }}>De ce suntem diferiți</h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {[
+              { bad: "Nu îți spunem ce să faci", good: "Îți arătăm cum e să faci" },
+              { bad: "Nu avem teste cu întrebări vagi", good: "Avem simulări cu scenarii reale" },
+              { bad: "Nu suntem un director de carieră online", good: "Suntem experiența pe care nu o poți avea altfel" },
+            ].map((row, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+                <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: i === 0 ? "12px 0 0 0" : i === 2 ? "0 0 0 12px" : 0, padding: "16px 20px", display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>❌</span>
+                  <span style={{ fontSize: 13, color: "#7f1d1d", lineHeight: 1.5 }}>{row.bad}</span>
+                </div>
+                <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: i === 0 ? "0 12px 0 0" : i === 2 ? "0 0 12px 0" : 0, padding: "16px 20px", display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>✅</span>
+                  <span style={{ fontSize: 13, color: "#14532d", fontWeight: 500, lineHeight: 1.5 }}>{row.good}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROFESII ─────────────────────────────────────────────────── */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="section-title text-center mb-3">Explorează prin experiențe reale</h2>
@@ -136,7 +127,7 @@ export default function HomePage() {
               { img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80", label: "Antreprenor", desc: "Îți construiești propria viziune", href: "/experienta-vr" },
             ].map((item) => (
               <Link key={item.label} href={item.href} className="relative rounded-2xl overflow-hidden group block" style={{ aspectRatio: "4/3" }}>
-                <img src={item.img} alt={item.label} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={item.img} alt={item.label} loading="lazy" width={600} height={450} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3">
                   <p className="text-white font-bold text-sm">{item.label}</p>
@@ -145,32 +136,36 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <Link href="/gaseste-ti-directia" style={{ fontSize: 14, color: "#2563eb", fontWeight: 600, textDecoration: "none" }}>
+              Vezi toate profesiile disponibile →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Recenzii */}
+      {/* ── TESTIMONIALE ─────────────────────────────────────────────── */}
       <section className="py-16 px-4" style={{ background: "#eff6ff" }}>
         <div className="max-w-7xl mx-auto">
-          <h2 className="section-title text-center mb-3">Ce spun utilizatorii</h2>
+          <h2 className="section-title text-center mb-2">Ce spun utilizatorii</h2>
           <p className="text-center text-gray-500 text-sm mb-10">Mii de tineri și-au descoperit cariera cu Profesia 360.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
             {[
-              { nume: "Andreea M.", varsta: "17 ani, elevă", text: "Nu știam dacă să merg spre medicină sau psihologie. După simularea de pe Profesia 360, am înțeles că îmi doresc cu adevărat să lucrez cu oamenii, nu cu boli. Am ales psihologia și sunt sigură că e decizia corectă.", avatar: "AM", culoare: "#dbeafe" },
-              { nume: "Radu T.", varsta: "19 ani, student anul 1", text: "Înainte să intru la facultate am folosit platforma să testez simularea de programator. A fost revelator — am văzut că îmi place să rezolv probleme. Am ales Informatică și nu regret.", avatar: "RT", culoare: "#ede9fe" },
-              { nume: "Maria P.", varsta: "35 ani, în reconversie", text: "După 10 ani în contabilitate voiam o schimbare. Simularea de UX Designer m-a convins că e domeniul potrivit. Acum urmez cursuri și simt că în sfârșit fac ce-mi place.", avatar: "MP", culoare: "#dcfce7" },
-              { nume: "Bogdan V.", varsta: "22 ani, proaspăt absolvent", text: "Eram pierdut după facultate. Simularea de antreprenor mi-a arătat că am un profil de fondator, nu de angajat. Am lansat un mic business și merg înainte.", avatar: "BV", culoare: "#fef9c3" },
-              { nume: "Prof. coordonator", varsta: "Liceu Teoretic, Cluj", text: "Am folosit platforma cu 30 de elevi de clasa a XI-a. Discuțiile după simulări au fost extraordinare — elevii au vorbit deschis despre ce vor să facă cu viața lor.", avatar: "PC", culoare: "#ffe4e6" },
+              { name: "Andreea M.", tag: "17 ani, elevă", text: "Nu știam dacă să merg spre medicină sau psihologie. Simularea m-a ajutat să înțeleg că îmi doresc cu adevărat să lucrez cu oamenii. Am ales psihologia și sunt sigură că e decizia corectă.", avatar: "AM", bg: "#dbeafe" },
+              { name: "Radu T.", tag: "19 ani, student", text: "Înainte să intru la facultate am testat simularea de programator. A fost revelator — am văzut că îmi place să rezolv probleme, nu doar să scriu cod. Am ales Informatica și nu regret.", avatar: "RT", bg: "#ede9fe" },
+              { name: "Maria P.", tag: "35 ani, reconversie", text: "După 10 ani în contabilitate voiam o schimbare. Simularea de UX Designer m-a convins că e domeniul potrivit. Acum urmez cursuri și simt că fac ce-mi place.", avatar: "MP", bg: "#dcfce7" },
+              { name: "Prof. coordonator", tag: "Liceu Teoretic, Cluj", text: "Am folosit platforma cu 30 de elevi de clasa a XI-a. Discuțiile după simulări au fost extraordinare — elevii au vorbit deschis despre ce vor să facă cu viața lor.", avatar: "PC", bg: "#fef9c3" },
             ].map((r) => (
-              <div key={r.nume} style={{ background: r.culoare, borderRadius: 16, padding: 22, border: "1px solid rgba(37,99,235,0.1)" }}>
+              <div key={r.name} style={{ background: r.bg, borderRadius: 16, padding: 22, border: "1px solid rgba(37,99,235,0.1)" }}>
                 <div style={{ display: "flex", marginBottom: 10 }}>
-                  {"★★★★★".split("").map((s, j) => <span key={j} style={{ color: "#f59e0b", fontSize: 16 }}>{s}</span>)}
+                  {"★★★★★".split("").map((s, j) => <span key={j} style={{ color: "#f59e0b", fontSize: 15 }}>{s}</span>)}
                 </div>
                 <p style={{ fontSize: 13, color: "#1e293b", lineHeight: 1.7, marginBottom: 14, fontStyle: "italic" }}>"{r.text}"</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 12 }}>{r.avatar}</div>
                   <div>
-                    <div style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}>{r.nume}</div>
-                    <div style={{ fontSize: 11, color: "#64748b" }}>{r.varsta}</div>
+                    <div style={{ fontWeight: 600, fontSize: 13, color: "#1e293b" }}>{r.name}</div>
+                    <div style={{ fontSize: 11, color: "#64748b" }}>{r.tag}</div>
                   </div>
                 </div>
               </div>
@@ -179,150 +174,84 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About / Mission / Vision */}
-      <section id="despre-noi" className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-          <div className="card">
-            <h3 className="font-bold text-primary text-lg mb-3">Despre proiect</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Profesia 360 este un proiect educațional inovator dedicat adolescenților și adulților aflați în proces de
-              orientare sau reconversie profesională, care oferă experiențe virtuale interactive pentru explorarea
-              diferitelor cariere, alături de sesiuni de consiliere individuală cu mentori și specialiști în carieră.
-            </p>
+      {/* ── PLANURI (simplificate) ────────────────────────────────────── */}
+      <section className="py-20 px-4 bg-white">
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>◉ Fără surprize</div>
+            <h2 style={{ fontSize: 32, fontWeight: 800, color: "#1e293b", marginBottom: 12 }}>Alege planul tău</h2>
+            <p style={{ color: "#64748b", fontSize: 15 }}>Fără abonament obligatoriu. Plătești doar ce folosești.</p>
           </div>
-          <div className="card">
-            <h3 className="font-bold text-primary text-lg mb-3">Misiunea noastră</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Misiunea noastră este să oferim elevilor, studenților și persoanelor aflate în reconversie profesională o
-              experiență practică și interactivă, prin care să descopere diverse meserii, să participe la activități
-              reale și să primească feedback util pentru orientarea lor în carieră.
-            </p>
-          </div>
-          <div className="card">
-            <h3 className="font-bold text-primary text-lg mb-3">Viziunea noastră</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Viziunea companiei este de a deveni o platformă modernă și accesibilă de orientare profesională, care să
-              contribuie la o alegere mai sigură și mai informată a carierei prin utilizarea tehnologiei VR.
-            </p>
-          </div>
-        </div>
-      </section>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, alignItems: "start" }}>
 
-      {/* CTA Buttons */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="flex justify-center gap-6 flex-wrap mb-16">
-            <div className="relative">
-              <div className="absolute -top-4 -left-4 w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">1</div>
-              <Link href="/experienta-vr" className="btn-primary px-8 py-4 text-base inline-block">Intră în experiența VR</Link>
+            {/* Gratuit */}
+            <div style={{ background: "rgba(255,255,255,1)", border: "1px solid #bfdbfe", borderRadius: 20, padding: 28 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>GRATUIT</div>
+              <div style={{ fontSize: 36, fontWeight: 800, color: "#1e293b", marginBottom: 4 }}>0 lei</div>
+              <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 20 }}>pentru totdeauna</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                {["✓ 1 simulare completă", "✓ Chestionar de orientare", "✓ Preview profesii", "✗ Raport AI detaliat", "✗ Video 360°"].map((f) => (
+                  <li key={f} style={{ fontSize: 13, color: f.startsWith("✗") ? "#94a3b8" : "#475569" }}>{f}</li>
+                ))}
+              </ul>
+              <Link href="/profesii/profesor" style={{ display: "block", background: "#e8f0fe", color: "#2563eb", borderRadius: 10, padding: "12px 16px", fontSize: 14, fontWeight: 600, textDecoration: "none", textAlign: "center" }}>
+                Încearcă gratuit →
+              </Link>
             </div>
-            <div className="relative">
-              <div className="absolute -top-4 -left-4 w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-md">2</div>
-              <Link href="/cum-functioneaza" className="btn-primary px-8 py-4 text-base inline-block">Vezi cum funcționează</Link>
-            </div>
-          </div>
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-6">Descoperă ce profesie ți se potrivește.</h2>
-          <Link href="/gaseste-ti-directia" className="btn-primary px-10 py-4 text-lg inline-block">Încep experiența completă</Link>
-        </div>
-      </section>
 
-      {/* Pricing */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="section-title text-center mb-3">Alege planul tău</h2>
-          <p className="text-center text-gray-500 mb-12">Selectează planul potrivit pentru obiectivele tale de carieră.</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
-            {plans.map((plan) => (
-              <div key={plan.name} className={`rounded-2xl border-2 p-5 flex flex-col ${plan.color} relative overflow-hidden`}>
-                <div className={`absolute top-0 right-0 w-16 h-16 ${plan.badge} opacity-10 rounded-bl-full`} />
-                <h3 className="font-bold text-gray-900 text-base mb-1">{plan.name}</h3>
-                <div className="mb-1">
-                  <span className="text-2xl font-extrabold text-gray-900">{plan.price}</span>
-                  {plan.duration && <span className="text-xs text-gray-500 ml-1">/ {plan.duration}</span>}
-                </div>
-                {plan.note && <p className="text-xs text-red-600 font-medium mb-2">{plan.note}</p>}
-                <ul className="mt-2 mb-5 space-y-1.5 flex-1">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-1.5 text-xs text-gray-700">
-                      <span className="text-primary mt-0.5">✓</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                {plan.free ? (
-                  <Link href={plan.href!} className={`text-center py-2.5 px-4 rounded-full text-sm font-semibold transition-colors ${plan.ctaStyle}`}>
-                    {plan.cta}
-                  </Link>
-                ) : (
-                  <PlanButton
-                    planKey={plan.planKey!}
-                    label={plan.cta}
-                    className={`text-center py-2.5 px-4 rounded-full text-sm font-semibold transition-colors cursor-pointer border-0 ${plan.ctaStyle}`}
-                  />
-                )}
+            {/* Pro */}
+            <div style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)", borderRadius: 20, padding: 28, position: "relative" }}>
+              <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#fbbf24", color: "#1a1400", fontSize: 11, fontWeight: 800, padding: "4px 16px", borderRadius: 20, whiteSpace: "nowrap" }}>
+                ⭐ Recomandat
               </div>
-            ))}
-          </div>
-
-          {/* Institutions block */}
-          <div className="mt-10 flex items-center gap-4 bg-amber-50 border-2 border-amber-400 rounded-2xl px-6 py-5 flex-wrap">
-            <span className="text-3xl">🏢</span>
-            <div className="flex-1">
-              <p className="font-bold text-gray-900 text-base mb-0.5">Plan pentru instituții & corporate</p>
-              <p className="text-sm text-gray-600">Soluții personalizate pentru școli, licee, universități și companii.</p>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#93c5fd", marginBottom: 4 }}>PRO</div>
+              <div style={{ fontSize: 36, fontWeight: 800, color: "#fff", marginBottom: 4 }}>149 lei</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 20 }}>/ 15 zile · reducere 20% elevi</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                {["✓ Toate simulările", "✓ Raport AI personalizat", "✓ Video 360°", "✓ Badge-uri & streak", "✓ Profil de compatibilitate"].map((f) => (
+                  <li key={f} style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{f}</li>
+                ))}
+              </ul>
+              <PlanButton planKey="pro" label="Vreau Pro →" className="w-full cursor-pointer border-0 py-3 px-4 rounded-xl text-sm font-bold text-blue-700 bg-white hover:bg-blue-50" />
             </div>
-            <Link href="/contact" className="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl text-sm transition-colors whitespace-nowrap">
-              Contactați-ne →
+
+            {/* Școală */}
+            <div style={{ background: "rgba(255,255,255,1)", border: "1.5px solid #fde68a", borderRadius: 20, padding: 28 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#d97706", marginBottom: 4 }}>ȘCOALĂ / INSTITUȚIE</div>
+              <div style={{ fontSize: 28, fontWeight: 800, color: "#1e293b", marginBottom: 4 }}>Preț la cerere</div>
+              <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 20 }}>pentru clase & licee</div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                {["✓ Conturi multiple", "✓ Dashboard profesor", "✓ Rapoarte per clasă", "✓ Personalizare conținut", "✓ Facturare B2B"].map((f) => (
+                  <li key={f} style={{ fontSize: 13, color: "#475569" }}>{f}</li>
+                ))}
+              </ul>
+              <Link href="/contact" style={{ display: "block", background: "#f59e0b", color: "#fff", borderRadius: 10, padding: "12px 16px", fontSize: 14, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>
+                Contactați-ne →
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ────────────────────────────────────────────────── */}
+      <section style={{ background: "linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)", padding: "80px 16px", textAlign: "center" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🎓</div>
+          <h2 style={{ fontSize: 32, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.2 }}>
+            Tu ești profesorul.<br />Tu iei decizia.<br />Tu simți consecința.
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 15, marginBottom: 32, lineHeight: 1.7 }}>
+            Prima platformă din România unde testezi profesia, nu personalitatea.
+          </p>
+          <Link href="/profesii/profesor" style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 100, padding: "16px 40px", fontSize: 16, fontWeight: 800, textDecoration: "none" }}>
+            Încearcă simularea — e gratuit →
+          </Link>
+          <div style={{ marginTop: 20 }}>
+            <Link href="/chestionar" style={{ color: "rgba(255,255,255,0.65)", fontSize: 13, textDecoration: "none" }}>
+              Sau completează chestionarul de orientare →
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Pachete Pro Elev */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Pachete Pro Elev*</h2>
-          <p className="text-sm text-gray-500 mb-10">Prețuri speciale pentru elevi cu card de elev sau adresă de email instituțională.</p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            {/* Pachet 2 profesii */}
-            <div style={{ flex: 1, background: "linear-gradient(135deg, #1a3a5c, #0f2a4a)", border: "1.5px solid #4f8ef7", borderRadius: 18, padding: 28, position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 14, right: 14, background: "#4f8ef7", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20 }}>PRO ELEV</div>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>🎓</div>
-              <div style={{ fontSize: 30, fontWeight: 800, color: "#4f8ef7", marginBottom: 4 }}>119 lei</div>
-              <div style={{ color: "#8b93a8", fontSize: 13, marginBottom: 16 }}>2 profesii</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 8, textAlign: "left" }}>
-                {["Acces VR complet la 2 profesii", "Feedback personalizat", "Raport compatibilitate"].map(f => (
-                  <li key={f} style={{ fontSize: 13, color: "#c8d4e8", display: "flex", gap: 8 }}><span style={{ color: "#4f8ef7" }}>✓</span>{f}</li>
-                ))}
-              </ul>
-              <PlanButton planKey="pro-elev-2" label="Alege pachetul" className="w-full cursor-pointer border-0 py-2.5 px-4 rounded-full text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600" />
-            </div>
-            {/* Pachet 3 profesii */}
-            <div style={{ flex: 1, background: "linear-gradient(135deg, #3a1a5c, #2a0f4a)", border: "1.5px solid #7c6df8", borderRadius: 18, padding: 28, position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 14, right: 14, background: "#7c6df8", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20 }}>PRO ELEV</div>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>🚀</div>
-              <div style={{ fontSize: 30, fontWeight: 800, color: "#7c6df8", marginBottom: 4 }}>149 lei</div>
-              <div style={{ color: "#8b93a8", fontSize: 13, marginBottom: 16 }}>3 profesii</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 8, textAlign: "left" }}>
-                {["Acces VR complet la 3 profesii", "Feedback personalizat extins", "Raport carieră complet", "Prioritate suport"].map(f => (
-                  <li key={f} style={{ fontSize: 13, color: "#c8d4e8", display: "flex", gap: 8 }}><span style={{ color: "#7c6df8" }}>✓</span>{f}</li>
-                ))}
-              </ul>
-              <PlanButton planKey="pro-elev-3" label="Alege pachetul" className="w-full cursor-pointer border-0 py-2.5 px-4 rounded-full text-sm font-semibold text-white bg-violet-500 hover:bg-violet-600" />
-            </div>
-          </div>
-          <div className="mt-10 grid sm:grid-cols-2 gap-4 text-left">
-            <a href="/chestionar" className="card border-l-4 border-primary hover:shadow-md transition-shadow" style={{ textDecoration: "none" }}>
-              <p className="text-sm font-semibold text-gray-700">🎯 Chestionar de orientare profesională</p>
-              <p className="text-xs text-gray-500 mt-1">20 întrebări, analiză AI, profesii recomandate personalizat. Durează sub 5 minute.</p>
-              <p className="text-xs text-blue-600 font-semibold mt-2">Începe chestionarul →</p>
-            </a>
-            <div className="card border-l-4 border-primary">
-              <p className="text-sm font-semibold text-gray-700">📚 Zonă cu sfaturi pentru carieră</p>
-              <p className="text-xs text-gray-500 mt-1">Cum să-ți construiești un CV, cum să te prezinți la un interviu și multe altele.</p>
-            </div>
-          </div>
-          <p className="text-xs text-gray-400 mt-6">*Reducerea se aplică elevilor verificați cu card de elev valabil sau email instituțional (@scoala.ro / @liceu.ro etc.).</p>
         </div>
       </section>
     </>
