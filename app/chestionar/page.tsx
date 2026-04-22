@@ -36,7 +36,17 @@ export default function ChestionarPage() {
   const [raspunsuri, setRaspunsuri] = useState<Record<number, number>>({});
   const [loading, setLoading] = useState(false);
   const [rezultat, setRezultat] = useState<string | null>(null);
+  const [topCategory, setTopCategory] = useState<string | null>(null);
   const [eroare, setEroare] = useState<string | null>(null);
+
+  const SIM_RECOMMENDATIONS: Record<string, { title: string; desc: string; href: string; color: string; emoji: string }> = {
+    S: { title: "Simulare recomandată: Profesor", desc: "Profilul tău Social se potrivește perfect cu rolul de profesor. Trăiește o zi reală în clasă și vezi dacă e vocația ta.", href: "/profesii/profesor/simulare", color: "#2563eb", emoji: "🎓" },
+    I: { title: "Simulare recomandată: Profesor (disponibilă acum)", desc: "Profilul tău Investigativ te va pune în fața unor decizii complexe. Testează cum gândești sub presiune.", href: "/profesii/profesor/simulare", color: "#7c3aed", emoji: "🔬" },
+    A: { title: "Simulare recomandată: Profesor (disponibilă acum)", desc: "Creativitatea ta va fi testată prin scenarii reale de clasă. Cum faci o lecție captivantă din nimic?", href: "/profesii/profesor/simulare", color: "#db2777", emoji: "🎨" },
+    R: { title: "Simulare disponibilă: Profesor", desc: "Deși profilul tău e Practic, simularea de profesor testează abilități transferabile — decizie rapidă și rezolvare de probleme.", href: "/profesii/profesor/simulare", color: "#059669", emoji: "🔧" },
+    E: { title: "Simulare disponibilă: Profesor", desc: "Liderul din tine va fi testat — cum gestionezi o clasă, un conflict, un inspector? Skills direct aplicabile.", href: "/profesii/profesor/simulare", color: "#d97706", emoji: "🚀" },
+    C: { title: "Simulare disponibilă: Profesor", desc: "Organizarea și structura sunt cheia unui profesor bun. Testează-ți sistemul într-o zi haotică de școală.", href: "/profesii/profesor/simulare", color: "#0891b2", emoji: "📋" },
+  };
 
   const intrebariCompletate = Object.keys(raspunsuri).length;
   const progres = Math.round((intrebariCompletate / INTREBARI.length) * 100);
@@ -63,6 +73,7 @@ export default function ChestionarPage() {
       });
       const data = await res.json();
       setRezultat(data.rezultat);
+      setTopCategory(data.topCategory ?? null);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setEroare("A apărut o eroare. Te rugăm să încerci din nou.");
@@ -83,15 +94,34 @@ export default function ChestionarPage() {
           <div style={{ fontSize: 14, color: "#1e293b", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{rezultat}</div>
         </div>
 
+        {topCategory && SIM_RECOMMENDATIONS[topCategory] && (() => {
+          const rec = SIM_RECOMMENDATIONS[topCategory];
+          return (
+            <div style={{ background: `linear-gradient(135deg, ${rec.color}18, ${rec.color}08)`, border: `2px solid ${rec.color}`, borderRadius: 16, padding: 24, marginBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                <div style={{ fontSize: 36, flexShrink: 0 }}>{rec.emoji}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: rec.color, fontWeight: 700, marginBottom: 6 }}>Pasul următor recomandat</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#1e293b", marginBottom: 6 }}>{rec.title}</div>
+                  <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6, marginBottom: 16 }}>{rec.desc}</div>
+                  <a href={rec.href} style={{ display: "inline-block", background: rec.color, color: "#fff", borderRadius: 10, padding: "11px 24px", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>
+                    Începe simularea acum →
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <button
-            onClick={() => { setRezultat(null); setRaspunsuri({}); }}
+            onClick={() => { setRezultat(null); setRaspunsuri({}); setTopCategory(null); }}
             style={{ background: "#e8f0fe", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
           >
             ← Refă chestionarul
           </button>
           <a href="/experienta-vr" style={{ background: "linear-gradient(135deg, #2563eb, #7c3aed)", color: "#fff", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
-            Explorează profesiile recomandate →
+            Explorează toate profesiile →
           </a>
         </div>
       </main>

@@ -190,8 +190,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Date incomplete" }, { status: 400 });
     }
 
+    const scores = calculeazaScoruri(raspunsuri);
+    const topCategory = (Object.entries(scores) as [Category, number][]).sort((a, b) => b[1] - a[1])[0][0];
     const rezultat = genereazaRezultat(raspunsuri);
-    return NextResponse.json({ rezultat });
+    return NextResponse.json({ rezultat, topCategory });
   } catch (err) {
     console.error("Eroare chestionar:", err);
     return NextResponse.json({ error: "Eroare la generarea rezultatelor" }, { status: 500 });
