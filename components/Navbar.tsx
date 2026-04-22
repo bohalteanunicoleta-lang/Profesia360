@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/chestionar", label: "Chestionar" },
   { href: "/ghid-cariera", label: "Ghid carieră" },
   { href: "/contact", label: "Contact" },
+  { href: "/rezultatele-mele", label: "Rezultatele mele" },
 ];
 
 const TASK_NOTIFS = [

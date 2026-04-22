@@ -143,6 +143,19 @@ export default function SimularePage() {
     if (phase !== "complete") return;
     const s = stateRef.current;
     if (!s) return;
+    // Salvează în localStorage
+    try {
+      const { totalScore, grade, label } = ((): { totalScore: number; grade: string; label: string } => {
+        const skillAvg = Object.values(s.skills).reduce((a, b) => a + b, 0) / 5;
+        const score = Math.min(100, Math.round(skillAvg * 0.35 + (s.currentXP / 20) * 0.3 + (s.completedTasks.length / TASKS.length) * 100 * 0.1));
+        const g = score >= 85 ? "A" : score >= 70 ? "B" : score >= 55 ? "C" : "D";
+        const l = g === "A" ? "Profesor Excepțional" : g === "B" ? "Profesor Solid" : g === "C" ? "Profesor în Dezvoltare" : "Provocări Semnificative";
+        return { totalScore: score, grade: g, label: l };
+      })();
+      const entry = { date: new Date().toISOString(), totalScore, grade, label, completedTasks: s.completedTasks.length, totalTasks: TASKS.length, skills: s.skills, hardMode };
+      const prev = JSON.parse(localStorage.getItem("profesia360_results") ?? "[]");
+      localStorage.setItem("profesia360_results", JSON.stringify([...prev, entry]));
+    } catch { /* localStorage unavailable */ }
     setLoadingFeedback(true);
     fetch("/api/simulation/feedback", {
       method: "POST",
@@ -459,6 +472,9 @@ export default function SimularePage() {
             <button onClick={() => { setState(null); setPhase("intro"); }} style={{ background: "#e8f0fe", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
               ← Reia simularea
             </button>
+            <a href="/rezultatele-mele" style={{ background: "#f0fdf4", color: "#059669", border: "1px solid #bbf7d0", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
+              📊 Toate rezultatele mele
+            </a>
             <a href="/experienta-vr" style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", color: "#fff", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
               Explorează alte profesii →
             </a>
