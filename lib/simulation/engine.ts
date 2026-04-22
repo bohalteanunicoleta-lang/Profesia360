@@ -1,6 +1,25 @@
 import { SimulationState, Task, Choice, SkillKey, LevelDefinition } from "./types";
 import { TASKS, LEVELS, RANDOM_EVENTS } from "./data";
 
+export interface Badge {
+  id: string;
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface CareerMatch {
+  name: string;
+  match: number;
+}
+
+export interface CompatibilityProfile {
+  intuitiv: number;
+  empatic: number;
+  independent: number;
+  risc: number;
+}
+
 export function getLevelForXP(xp: number): LevelDefinition {
   return LEVELS.slice().reverse().find((l) => xp >= l.minXP) ?? LEVELS[0];
 }
@@ -101,4 +120,56 @@ export function getSimulationScore(state: SimulationState): {
       : "Provocări Semnificative";
 
   return { totalScore: score, grade, label };
+}
+
+export function computeBadges(state: SimulationState): Badge[] {
+  const badges: Badge[] = [];
+
+  if (state.completedTasks.length > 0) {
+    badges.push({ id: "first_day", icon: "🎭", title: "Prima zi de muncă", desc: "Ai finalizat simularea." });
+  }
+  if (state.skills.empatie > 80) {
+    badges.push({ id: "empathic", icon: "💙", title: "Empatic", desc: "Empatia depășește 80/100." });
+  }
+  const favTask = TASKS.find((t) => t.id === "t_favoritism");
+  const favChoice = favTask && state.choicesMade["t_favoritism"];
+  if (favTask && favChoice && favTask.choices.find((c) => c.id === favChoice)?.isOptimal) {
+    badges.push({ id: "integrity", icon: "⚖️", title: "Drept până la capăt", desc: "Integritate maximă sub presiune." });
+  }
+  if (state.completedTasks.length === TASKS.length) {
+    badges.push({ id: "explorer", icon: "🎓", title: "Ziua completă", desc: "Ai completat toate task-urile." });
+  }
+  const { totalScore } = getSimulationScore(state);
+  if (totalScore >= 85) {
+    badges.push({ id: "top", icon: "🏆", title: "Top Performer", desc: "Scor peste 85/100." });
+  }
+  if (state.streak >= 5) {
+    badges.push({ id: "fast", icon: "🔥", title: "Fără ezitare", desc: "5 decizii rapide consecutive." });
+  }
+
+  return badges;
+}
+
+export function computeCompatibilityProfile(state: SimulationState): CompatibilityProfile {
+  const { empatie, comunicare, organizare, rezilienta, disciplina } = state.skills;
+  return {
+    intuitiv: Math.min(100, Math.round((empatie + comunicare) / 2)),
+    empatic: empatie,
+    independent: Math.min(100, Math.round((rezilienta + disciplina) / 2)),
+    risc: Math.min(100, Math.round(100 - (organizare + disciplina) / 2)),
+  };
+}
+
+export function getCareerMatches(state: SimulationState): CareerMatch[] {
+  const { empatie, comunicare, organizare, rezilienta, disciplina } = state.skills;
+  return [
+    { name: "Psiholog", match: Math.min(100, Math.round(empatie * 0.5 + comunicare * 0.3 + rezilienta * 0.2)) },
+    { name: "Asistent social", match: Math.min(100, Math.round(empatie * 0.6 + comunicare * 0.3 + rezilienta * 0.1)) },
+    { name: "Consilier școlar", match: Math.min(100, Math.round(empatie * 0.4 + comunicare * 0.4 + organizare * 0.2)) },
+    { name: "Trainer / Coach", match: Math.min(100, Math.round(comunicare * 0.5 + empatie * 0.3 + organizare * 0.2)) },
+    { name: "Manager educațional", match: Math.min(100, Math.round(organizare * 0.4 + disciplina * 0.3 + comunicare * 0.3)) },
+    { name: "Profesor universitar", match: Math.min(100, Math.round(organizare * 0.3 + comunicare * 0.4 + rezilienta * 0.3)) },
+  ]
+    .sort((a, b) => b.match - a.match)
+    .slice(0, 3);
 }

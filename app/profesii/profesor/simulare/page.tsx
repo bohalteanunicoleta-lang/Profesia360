@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SimulationState, Task } from "@/lib/simulation/types";
 import { TASKS, SCHEDULED_NOTIFICATIONS, LEVELS, RANDOM_EVENTS } from "@/lib/simulation/data";
-import { getLevelForXP } from "@/lib/simulation/engine";
+import { getLevelForXP, computeBadges, computeCompatibilityProfile, getCareerMatches } from "@/lib/simulation/engine";
 
 const SIMULATION_SPEED = 2;
 
@@ -246,6 +246,15 @@ export default function SimularePage() {
       const t = TASKS.find((x) => x.id === tid)!;
       return t.choices.find((c) => c.id === state.choicesMade[tid])?.isOptimal;
     }).length;
+    const badges = computeBadges(state);
+    const profile = computeCompatibilityProfile(state);
+    const matches = getCareerMatches(state);
+    const profileLabels: Record<string, [string, string]> = {
+      intuitiv: ["Analitic", "Intuitiv"],
+      empatic: ["Structural", "Empatic"],
+      independent: ["Colaborativ", "Independent"],
+      risc: ["Stabilitate", "Risc"],
+    };
 
     return (
       <main style={{ minHeight: "100vh", background: "linear-gradient(135deg,#e8f0fe,#dbeafe)", fontFamily: "sans-serif", padding: "40px 20px" }}>
@@ -277,6 +286,57 @@ export default function SimularePage() {
               </div>
             ))}
           </div>
+          {/* Badge-uri */}
+          {badges.length > 0 && (
+            <div style={{ background: "#fff", borderRadius: 16, padding: 24, marginBottom: 16, border: "1px solid #dbeafe" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b", marginBottom: 16 }}>🏅 Badge-uri câștigate</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {badges.map((b) => (
+                  <div key={b.id} style={{ background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 10, padding: "10px 14px", textAlign: "center", minWidth: 100 }}>
+                    <div style={{ fontSize: 24, marginBottom: 4 }}>{b.icon}</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#1e293b" }}>{b.title}</div>
+                    <div style={{ fontSize: 11, color: "#64748b", marginTop: 2 }}>{b.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Profil compatibilitate */}
+          <div style={{ background: "#fff", borderRadius: 16, padding: 24, marginBottom: 16, border: "1px solid #dbeafe" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b", marginBottom: 16 }}>🧭 Profilul tău de carieră</div>
+            {Object.entries(profile).map(([key, val]) => {
+              const [left, right] = profileLabels[key];
+              return (
+                <div key={key} style={{ marginBottom: 14 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#64748b", marginBottom: 4 }}>
+                    <span>{left}</span>
+                    <span style={{ fontWeight: 600, color: "#2563eb" }}>{val}% {right}</span>
+                  </div>
+                  <div style={{ height: 6, background: "#e8f0fe", borderRadius: 3, overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${val}%`, background: "linear-gradient(90deg,#2563eb,#7c3aed)", borderRadius: 3 }} />
+                  </div>
+                </div>
+              );
+            })}
+            <div style={{ marginTop: 20, borderTop: "1px solid #e8f0fe", paddingTop: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#1e293b", marginBottom: 10 }}>Profesii cu cea mai mare potrivire:</div>
+              {matches.map((m) => (
+                <div key={m.name} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3, fontSize: 13 }}>
+                      <span style={{ color: "#334155" }}>→ {m.name}</span>
+                      <span style={{ fontWeight: 700, color: m.match >= 80 ? "#059669" : "#d97706" }}>{m.match}%</span>
+                    </div>
+                    <div style={{ height: 4, background: "#e8f0fe", borderRadius: 2 }}>
+                      <div style={{ height: "100%", width: `${m.match}%`, background: m.match >= 80 ? "#059669" : "#d97706", borderRadius: 2 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div style={{ background: "#fff", borderRadius: 16, padding: 28, border: "1px solid #dbeafe", marginBottom: 24 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <span style={{ fontSize: 20 }}>🤖</span>
