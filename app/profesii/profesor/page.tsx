@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-// useState kept for VRCard playing state
 
 const VR_VIDEOS = [
   {
@@ -29,6 +28,8 @@ const VR_VIDEOS = [
     plan: "premium",
   },
 ];
+
+const SIM_URL = "https://claude.ai/public/artifacts/8f776cee-0b42-4358-988b-8ba69efc327d";
 
 function VRCard({ video, locked }: { video: (typeof VR_VIDEOS)[0]; locked: boolean }) {
   const [playing, setPlaying] = useState(false);
@@ -70,7 +71,38 @@ function VRCard({ video, locked }: { video: (typeof VR_VIDEOS)[0]; locked: boole
 }
 
 export default function ProfesorPage() {
+  const [showSim, setShowSim] = useState(false);
   const userPlan: string = "free";
+
+  if (showSim) {
+    return (
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 16px 60px", fontFamily: "sans-serif" }}>
+        <button
+          onClick={() => setShowSim(false)}
+          style={{ background: "transparent", border: "1px solid #bfdbfe", color: "#2563eb", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, margin: "20px 0 16px", fontFamily: "inherit" }}
+        >
+          ← Înapoi
+        </button>
+        <iframe
+          src={SIM_URL}
+          style={{ width: "100%", height: "90vh", border: "none", borderRadius: 12, boxShadow: "0 4px 24px rgba(37,99,235,0.12)" }}
+          title="Simulare interactivă — O zi ca profesor"
+          allow="fullscreen"
+        />
+        <div style={{ marginTop: 16, textAlign: "center" }}>
+          <a
+            href={SIM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "inline-block", background: "#2563eb", color: "#fff", padding: "14px 32px", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+          >
+            Deschide simularea completă →
+          </a>
+          <p style={{ fontSize: 11, color: "#64748b", marginTop: 8 }}>* Se deschide într-o fereastră nouă dacă iframe-ul e blocat</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main style={{ maxWidth: 820, margin: "0 auto", padding: "32px 16px 80px", fontFamily: "sans-serif", color: "#1e293b", background: "linear-gradient(135deg, #e8f0fe 0%, #dbeafe 50%, #eff6ff 100%)", minHeight: "100vh" }}>
@@ -95,17 +127,38 @@ export default function ProfesorPage() {
         ))}
       </div>
 
-      {/* Simulare */}
-      <div style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)", border: "none", borderRadius: 16, padding: 28, marginBottom: 32 }}>
-        <div style={{ fontSize: 10, color: "#93c5fd", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>✦ Simulare gamificată · Gratuit</div>
-        <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 10, color: "#fff" }}>O zi completă ca profesor</h2>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 20 }}>Trăiește o zi reală 08:00–18:00 cu task-uri în timp real, XP, nivel și feedback personalizat la final. Fiecare decizie contează.</p>
-        <a
-          href="/profesii/profesor/simulare"
-          style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 10, padding: "14px 28px", fontSize: 15, fontWeight: 600, textDecoration: "none" }}
-        >
-          Începe simularea gamificată →
-        </a>
+      {/* Simulări */}
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontSize: 10, color: "#2563eb", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>✦ Simulări disponibile · Gratuit</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+
+          {/* Simulare AI originală */}
+          <div style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)", borderRadius: 16, padding: 24 }}>
+            <div style={{ fontSize: 11, color: "#93c5fd", marginBottom: 8, fontWeight: 600 }}>SIMULARE AI</div>
+            <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: "#fff" }}>O zi ca profesor</h2>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, marginBottom: 20 }}>9 scenarii reale cu AI. Fiecare decizie are consecințe. Raport de compatibilitate la final.</p>
+            <button
+              onClick={() => setShowSim(true)}
+              style={{ background: "#fff", color: "#2563eb", border: "none", borderRadius: 8, padding: "11px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+            >
+              Începe simularea AI →
+            </button>
+          </div>
+
+          {/* Simulare gamificată */}
+          <div style={{ background: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)", borderRadius: 16, padding: 24 }}>
+            <div style={{ fontSize: 11, color: "#c4b5fd", marginBottom: 8, fontWeight: 600 }}>SIMULARE GAMIFICATĂ · NOU</div>
+            <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: "#fff" }}>O zi completă 08:00–18:00</h2>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.6, marginBottom: 20 }}>Task-uri în timp real, XP, nivel, skill-uri și feedback personalizat. Fiecare minut contează.</p>
+            <a
+              href="/profesii/profesor/simulare"
+              style={{ display: "inline-block", background: "#fff", color: "#7c3aed", borderRadius: 8, padding: "11px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }}
+            >
+              Începe simularea gamificată →
+            </a>
+          </div>
+
+        </div>
       </div>
 
       {/* VR Videos */}

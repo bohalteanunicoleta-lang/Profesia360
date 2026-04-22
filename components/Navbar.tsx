@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
 
 const SLOGAN = "Înainte de a alege, trăiește experiența!";
@@ -16,10 +16,50 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+const TASK_NOTIFS = [
+  {
+    id: 1,
+    icon: "🎓",
+    title: "Task nou: Gestionează un conflict în clasă",
+    desc: "Simulare profesor · disponibil acum",
+    href: "/profesii/profesor/simulare",
+    read: false,
+  },
+  {
+    id: 2,
+    icon: "📋",
+    title: "Task: Planifică o lecție pentru 30 de elevi",
+    desc: "Simulare profesor · disponibil acum",
+    href: "/profesii/profesor/simulare",
+    read: false,
+  },
+  {
+    id: 3,
+    icon: "👨‍👩‍👧",
+    title: "Task: Răspunde unui părinte nemulțumit",
+    desc: "Simulare profesor · disponibil acum",
+    href: "/profesii/profesor/simulare",
+    read: false,
+  },
+  {
+    id: 4,
+    icon: "📝",
+    title: "Completează chestionarul de carieră",
+    desc: "Găsește-ți direcția · 5 min",
+    href: "/chestionar",
+    read: true,
+  },
+];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [displayed, setDisplayed] = useState("");
+  const [showNotifs, setShowNotifs] = useState(false);
+  const [readIds, setReadIds] = useState<number[]>([4]);
   const { data: session } = useSession();
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  const unreadCount = TASK_NOTIFS.filter((n) => !readIds.includes(n.id)).length;
 
   useEffect(() => {
     let i = 0;
@@ -29,6 +69,21 @@ export default function Navbar() {
     }, 55);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setShowNotifs(false);
+      }
+    }
+    if (showNotifs) document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [showNotifs]);
+
+  function openNotifs() {
+    setShowNotifs((v) => !v);
+    setReadIds(TASK_NOTIFS.map((n) => n.id));
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-blue-100 shadow-sm">
@@ -68,8 +123,59 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Auth CTA */}
+          {/* Right side: bell + auth */}
           <div className="flex items-center gap-3">
+
+            {/* Notification bell */}
+            <div ref={notifRef} style={{ position: "relative" }}>
+              <button
+                onClick={openNotifs}
+                style={{ position: "relative", background: "transparent", border: "none", cursor: "pointer", padding: "6px 8px", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}
+                aria-label="Notificări"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+                {unreadCount > 0 && (
+                  <span style={{ position: "absolute", top: 2, right: 2, background: "#ef4444", color: "#fff", fontSize: 10, fontWeight: 700, borderRadius: "50%", width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {showNotifs && (
+                <div style={{ position: "absolute", right: 0, top: "calc(100% + 8px)", width: 320, background: "#fff", border: "1px solid #bfdbfe", borderRadius: 14, boxShadow: "0 8px 32px rgba(37,99,235,0.13)", zIndex: 100, overflow: "hidden" }}>
+                  <div style={{ padding: "14px 16px 10px", borderBottom: "1px solid #e8f0fe", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: "#1e293b" }}>Task-uri & Notificări</span>
+                    <span style={{ fontSize: 11, color: "#64748b" }}>{TASK_NOTIFS.length} total</span>
+                  </div>
+                  {TASK_NOTIFS.map((n) => (
+                    <Link
+                      key={n.id}
+                      href={n.href}
+                      onClick={() => setShowNotifs(false)}
+                      style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "12px 16px", borderBottom: "1px solid #f1f5f9", background: readIds.includes(n.id) ? "#fff" : "#eff6ff", textDecoration: "none", transition: "background 0.15s" }}
+                    >
+                      <span style={{ fontSize: 20, flexShrink: 0, marginTop: 1 }}>{n.icon}</span>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: readIds.includes(n.id) ? 400 : 600, color: "#1e293b", lineHeight: 1.4, marginBottom: 2 }}>{n.title}</div>
+                        <div style={{ fontSize: 11, color: "#64748b" }}>{n.desc}</div>
+                      </div>
+                      {!readIds.includes(n.id) && (
+                        <span style={{ width: 7, height: 7, background: "#2563eb", borderRadius: "50%", flexShrink: 0, marginTop: 5, marginLeft: "auto" }} />
+                      )}
+                    </Link>
+                  ))}
+                  <div style={{ padding: "10px 16px", textAlign: "center" }}>
+                    <Link href="/profesii/profesor/simulare" onClick={() => setShowNotifs(false)} style={{ fontSize: 12, color: "#2563eb", fontWeight: 600, textDecoration: "none" }}>
+                      Vezi toate task-urile →
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {session ? (
               <div className="hidden sm:flex items-center gap-3">
                 <span className="text-sm text-gray-600 font-medium">{session.user?.name}</span>
