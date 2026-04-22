@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SimulationState, Task } from "@/lib/simulation/types";
-import { TASKS, SCHEDULED_NOTIFICATIONS, LEVELS, RANDOM_EVENTS } from "@/lib/simulation/data";
+import { TASKS, SCHEDULED_NOTIFICATIONS, LEVELS, RANDOM_EVENTS, EXPERT_CHOICES } from "@/lib/simulation/data";
 import { getLevelForXP, computeBadges, computeCompatibilityProfile, getCareerMatches } from "@/lib/simulation/engine";
 
 const SIMULATION_SPEED = 2;
@@ -331,6 +331,42 @@ export default function SimularePage() {
                     {done && choice && (
                       <div style={{ fontSize: 11, color: "#64748b", marginTop: 2, lineHeight: 1.4 }}>{choice.immediateConsequence}</div>
                     )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Comparație cu profesionistul real */}
+          <div style={{ background: "#fff", borderRadius: 16, padding: 24, marginBottom: 16, border: "1px solid #dbeafe" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b", marginBottom: 4 }}>👨‍🏫 Tu vs. Profesorul cu 10 ani experiență</div>
+            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 16 }}>Cum ar fi răspuns un expert la aceleași scenarii</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {TASKS.filter((t) => state.completedTasks.includes(t.id)).map((task) => {
+                const userChoiceId = state.choicesMade[task.id];
+                const userChoice = task.choices.find((c) => c.id === userChoiceId);
+                const expert = EXPERT_CHOICES[task.id];
+                const expertChoice = expert ? task.choices[expert.choiceIndex] : null;
+                const match = userChoiceId === expertChoice?.id;
+                return (
+                  <div key={task.id} style={{ borderRadius: 12, border: `1px solid ${match ? "#bbf7d0" : "#fecaca"}`, overflow: "hidden" }}>
+                    <div style={{ background: match ? "#f0fdf4" : "#fef2f2", padding: "8px 14px", fontSize: 11, fontWeight: 700, color: match ? "#15803d" : "#b91c1c", display: "flex", justifyContent: "space-between" }}>
+                      <span>{fmt(task.hour, task.minute)} — {task.title}</span>
+                      <span>{match ? "✓ Ai ales la fel" : "✗ Alegeri diferite"}</span>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+                      <div style={{ padding: "10px 14px", borderRight: "1px solid #e8f0fe" }}>
+                        <div style={{ fontSize: 10, color: "#2563eb", fontWeight: 700, marginBottom: 4, textTransform: "uppercase" }}>Tu ai ales</div>
+                        <div style={{ fontSize: 12, color: "#334155", lineHeight: 1.5 }}>{userChoice?.text}</div>
+                      </div>
+                      <div style={{ padding: "10px 14px" }}>
+                        <div style={{ fontSize: 10, color: "#7c3aed", fontWeight: 700, marginBottom: 4, textTransform: "uppercase" }}>Expertul ar alege</div>
+                        <div style={{ fontSize: 12, color: "#334155", lineHeight: 1.5 }}>{expertChoice?.text}</div>
+                        {!match && expert && (
+                          <div style={{ fontSize: 11, color: "#64748b", marginTop: 6, fontStyle: "italic" }}>"{expert.rationale}"</div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 );
               })}

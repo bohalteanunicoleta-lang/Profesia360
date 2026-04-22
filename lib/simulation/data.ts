@@ -332,6 +332,17 @@ export const TASKS: Task[] = [
   },
 ];
 
+export const EXPERT_CHOICES: Record<string, { choiceIndex: number; rationale: string }> = {
+  t1:            { choiceIndex: 1, rationale: "Profesorii experimentați pierd 5 minute la start pentru a câștiga 40 de minute de atenție reală." },
+  t_innovation:  { choiceIndex: 1, rationale: "Cel mai bun profesor nu e cel care predă — e cel care face clasa să vrea să înțeleagă." },
+  t2:            { choiceIndex: 1, rationale: "Calm sub presiune = autoritate reală. Panica sau agresivitatea pierd respectul imediat." },
+  t_favoritism:  { choiceIndex: 0, rationale: "Integritatea nu e negociabilă. Un profesor corect e mai valoros decât unul comod." },
+  t3:            { choiceIndex: 0, rationale: "Dovezile clare și empatia împreună dezarmează orice părinte agresiv." },
+  t4:            { choiceIndex: 2, rationale: "Implicarea directorului transformă o inspecție incomodă într-o demonstrație de leadership." },
+  t_burnout:     { choiceIndex: 1, rationale: "Un profesor odihnit face mai mult în 60 de minute decât unul epuizat în 3 ore." },
+  t5:            { choiceIndex: 1, rationale: "Sustenabilitatea e skill profesional, nu slăbiciune. Prioritizarea salvează cariera pe termen lung." },
+};
+
 export const RANDOM_EVENTS: RandomEvent[] = [
   {
     id: "re1",
