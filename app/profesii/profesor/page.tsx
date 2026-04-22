@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+// useState kept for VRCard playing state
 
 const VR_VIDEOS = [
   {
@@ -69,43 +70,7 @@ function VRCard({ video, locked }: { video: (typeof VR_VIDEOS)[0]; locked: boole
 }
 
 export default function ProfesorPage() {
-  const [showSim, setShowSim] = useState(false);
-  // TODO: înlocuiește cu planul real al userului din sistemul tău de autentificare
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  const userPlan: string = "free"; // "free" | "pro" | "premium"
-
-  const SIM_URL = "https://claude.ai/public/artifacts/8f776cee-0b42-4358-988b-8ba69efc327d";
-
-  if (showSim) {
-    return (
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 16px 60px" }}>
-        <button
-          onClick={() => setShowSim(false)}
-          style={{ background: "#eff6ff", border: "1px solid #bfdbfe", color: "#2563eb", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, margin: "20px 0 16px", fontFamily: "inherit" }}
-        >
-          ← Înapoi
-        </button>
-        <iframe
-          src={SIM_URL}
-          style={{ width: "100%", height: "90vh", border: "none", borderRadius: 12 }}
-          title="Simulare interactivă — O zi ca profesor"
-          allow="fullscreen"
-        />
-        {/* Fallback vizibil dacă iframe-ul e blocat de X-Frame-Options */}
-        <div style={{ marginTop: 16, textAlign: "center" }}>
-          <a
-            href={SIM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "inline-block", background: "#2563eb", color: "#fff", padding: "14px 32px", borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
-          >
-            Deschide simularea completă →
-          </a>
-          <p style={{ fontSize: 11, color: "#64748b", marginTop: 8 }}>* Se deschide într-o fereastră nouă</p>
-        </div>
-      </div>
-    );
-  }
+  const userPlan: string = "free";
 
   return (
     <main style={{ maxWidth: 820, margin: "0 auto", padding: "32px 16px 80px", fontFamily: "sans-serif", color: "#1e293b", background: "linear-gradient(135deg, #e8f0fe 0%, #dbeafe 50%, #eff6ff 100%)", minHeight: "100vh" }}>
@@ -132,15 +97,15 @@ export default function ProfesorPage() {
 
       {/* Simulare */}
       <div style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)", border: "none", borderRadius: 16, padding: 28, marginBottom: 32 }}>
-        <div style={{ fontSize: 10, color: "#93c5fd", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>✦ Simulare interactivă · Gratuit</div>
-        <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 10, color: "#fff" }}>O zi ca profesor</h2>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 20 }}>Trăiește 9 scenarii reale. Fiecare decizie are consecințe. La final primești un raport de compatibilitate cu profesia.</p>
-        <button
-          onClick={() => setShowSim(true)}
-          style={{ background: "#fff", color: "#2563eb", border: "none", borderRadius: 10, padding: "14px 28px", fontSize: 15, fontWeight: 600, cursor: "pointer" }}
+        <div style={{ fontSize: 10, color: "#93c5fd", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>✦ Simulare gamificată · Gratuit</div>
+        <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 10, color: "#fff" }}>O zi completă ca profesor</h2>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 20 }}>Trăiește o zi reală 08:00–18:00 cu task-uri în timp real, XP, nivel și feedback personalizat la final. Fiecare decizie contează.</p>
+        <a
+          href="/profesii/profesor/simulare"
+          style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 10, padding: "14px 28px", fontSize: 15, fontWeight: 600, textDecoration: "none" }}
         >
-          Începe simularea →
-        </button>
+          Începe simularea gamificată →
+        </a>
       </div>
 
       {/* VR Videos */}
