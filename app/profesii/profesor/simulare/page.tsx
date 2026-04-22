@@ -39,6 +39,8 @@ export default function SimularePage() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [levelUpAnim, setLevelUpAnim] = useState<string | null>(null);
+  const [replayStep, setReplayStep] = useState<number>(-1);
+  const [replayRunning, setReplayRunning] = useState(false);
 
   const stateRef = useRef<SimulationState | null>(null);
   const hourRef = useRef(7);
@@ -286,6 +288,55 @@ export default function SimularePage() {
               </div>
             ))}
           </div>
+          {/* Replay ziua ta */}
+          <div style={{ background: "#fff", borderRadius: 16, padding: 24, marginBottom: 16, border: "1px solid #dbeafe" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#1e293b" }}>⏱ Ziua ta în 60 de secunde</div>
+              {!replayRunning && replayStep === -1 && (
+                <button onClick={() => {
+                  setReplayStep(0);
+                  setReplayRunning(true);
+                  let i = 0;
+                  const all = state.completedTasks.length + state.missedTasks.length;
+                  const iv = setInterval(() => {
+                    i++;
+                    setReplayStep(i);
+                    if (i >= all) { clearInterval(iv); setReplayRunning(false); }
+                  }, 700);
+                }} style={{ background: "#2563eb", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                  ▶ Rulează replay
+                </button>
+              )}
+              {(replayRunning || replayStep >= 0) && (
+                <button onClick={() => { setReplayStep(-1); setReplayRunning(false); }} style={{ background: "#e8f0fe", color: "#2563eb", border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                  ↺ Reset
+                </button>
+              )}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {TASKS.map((task, idx) => {
+                const done = state.completedTasks.includes(task.id);
+                const missed = state.missedTasks.includes(task.id);
+                const choiceId = state.choicesMade[task.id];
+                const choice = done ? task.choices.find((c) => c.id === choiceId) : null;
+                const visible = replayStep === -1 || idx < replayStep;
+                return (
+                  <div key={task.id} style={{ opacity: visible ? 1 : 0.15, transition: "opacity 0.5s", borderLeft: `3px solid ${done ? (choice?.isOptimal ? "#059669" : "#d97706") : "#dc2626"}`, paddingLeft: 12, paddingTop: 4, paddingBottom: 4 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "#1e293b" }}>{fmt(task.hour, task.minute)} — {task.title}</span>
+                      <span style={{ fontSize: 11, color: done ? (choice?.isOptimal ? "#059669" : "#d97706") : "#dc2626", fontWeight: 700 }}>
+                        {done ? (choice?.isOptimal ? "✓ Optim" : "△ Suboptim") : "✗ Ratat"}
+                      </span>
+                    </div>
+                    {done && choice && (
+                      <div style={{ fontSize: 11, color: "#64748b", marginTop: 2, lineHeight: 1.4 }}>{choice.immediateConsequence}</div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Badge-uri */}
           {badges.length > 0 && (
             <div style={{ background: "#fff", borderRadius: 16, padding: 24, marginBottom: 16, border: "1px solid #dbeafe" }}>
