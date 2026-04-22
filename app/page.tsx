@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PlanButton from "@/components/PlanButton";
 import AnimatedQuestions from "@/components/AnimatedQuestions";
+import NationalMap from "@/components/NationalMap";
 
 export default function HomePage() {
   return (
@@ -111,6 +112,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── HARTA NAȚIONALĂ ──────────────────────────────────────────── */}
+      <NationalMap />
 
       {/* ── PROFESII ─────────────────────────────────────────────────── */}
       <section className="py-16 px-4 bg-white">
