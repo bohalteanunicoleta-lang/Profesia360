@@ -41,6 +41,7 @@ export default function SimularePage() {
   const [levelUpAnim, setLevelUpAnim] = useState<string | null>(null);
   const [replayStep, setReplayStep] = useState<number>(-1);
   const [replayRunning, setReplayRunning] = useState(false);
+  const [hardMode, setHardMode] = useState(false);
 
   const stateRef = useRef<SimulationState | null>(null);
   const hourRef = useRef(7);
@@ -75,7 +76,7 @@ export default function SimularePage() {
   const triggerTask = useCallback((task: Task) => {
     if (clockRef.current) { clearInterval(clockRef.current); clockRef.current = null; }
     setActiveTask(task);
-    setTaskTimeLeft(task.timeoutSeconds);
+    setTaskTimeLeft(hardMode ? Math.floor(task.timeoutSeconds / 2) : task.timeoutSeconds);
     setSelectedChoice(null);
     setPhase("task");
     taskTimerRef.current = setInterval(() => {
@@ -167,6 +168,7 @@ export default function SimularePage() {
     endHandledRef.current = false;
     shownNotifIds.current.clear();
     setState(init);
+    setHardMode(false);
     setCurrentHour(8);
     setCurrentMinute(0);
     setFeedback(null);
@@ -234,9 +236,14 @@ export default function SimularePage() {
               </div>
             ))}
           </div>
-          <button onClick={startSimulation} style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 48px", fontSize: 16, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(37,99,235,0.35)" }}>
-            Începe ziua de muncă →
-          </button>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <button onClick={() => { setHardMode(false); startSimulation(); }} style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 48px", fontSize: 16, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(37,99,235,0.35)" }}>
+              Începe ziua de muncă →
+            </button>
+            <button onClick={() => { setHardMode(true); startSimulation(); }} style={{ background: "linear-gradient(135deg,#dc2626,#991b1b)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 32px", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(220,38,38,0.35)" }}>
+              🔥 Zi grea (timere -50%)
+            </button>
+          </div>
         </div>
       </main>
     );
@@ -435,6 +442,19 @@ export default function SimularePage() {
               <div style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>{feedback}</div>
             )}
           </div>
+          {!hardMode && optCount === state.completedTasks.length && state.completedTasks.length >= 4 && (
+            <div style={{ background: "linear-gradient(135deg,#7f1d1d,#991b1b)", borderRadius: 16, padding: 20, marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{ fontSize: 32 }}>🔥</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Felicitări — ai ales optim la toate!</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>Încearcă "Zi grea" — timere reduse la jumătate, presiune maximă.</div>
+              </div>
+              <button onClick={() => { setHardMode(true); setState(null); setPhase("intro"); }} style={{ background: "#dc2626", color: "#fff", border: "none", borderRadius: 10, padding: "10px 20px", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
+                Încearcă →
+              </button>
+            </div>
+          )}
+
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <button onClick={() => { setState(null); setPhase("intro"); }} style={{ background: "#e8f0fe", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
               ← Reia simularea
@@ -473,7 +493,7 @@ export default function SimularePage() {
       </div>
 
       {/* HUD */}
-      <div style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(232,240,254,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #dbeafe", padding: "10px 20px" }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 100, background: hardMode ? "rgba(127,29,29,0.97)" : "rgba(232,240,254,0.95)", backdropFilter: "blur(12px)", borderBottom: hardMode ? "1px solid #dc2626" : "1px solid #dbeafe", padding: "10px 20px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
           <div style={{ background: "#1e3a5f", color: "#60a5fa", borderRadius: 8, padding: "6px 14px", fontFamily: "monospace", fontSize: 18, fontWeight: 700 }}>
             {fmt(currentHour, currentMinute)}
