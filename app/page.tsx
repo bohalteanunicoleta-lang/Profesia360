@@ -178,62 +178,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PLANURI (simplificate) ────────────────────────────────────── */}
+      {/* ── PLANURI ──────────────────────────────────────────────────── */}
       <section className="py-20 px-4 bg-white">
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>◉ Fără surprize</div>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <div style={{ fontSize: 11, color: "#2563eb", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>◉ Prețuri transparente</div>
             <h2 style={{ fontSize: 32, fontWeight: 800, color: "#1e293b", marginBottom: 12 }}>Alege planul tău</h2>
-            <p style={{ color: "#64748b", fontSize: 15 }}>Fără abonament obligatoriu. Plătești doar ce folosești.</p>
+            <p style={{ color: "#64748b", fontSize: 15 }}>Fără surprize. Fără abonament recurent.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, alignItems: "start" }}>
-
-            {/* Gratuit */}
-            <div style={{ background: "rgba(255,255,255,1)", border: "1px solid #bfdbfe", borderRadius: 20, padding: 28 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>GRATUIT</div>
-              <div style={{ fontSize: 36, fontWeight: 800, color: "#1e293b", marginBottom: 4 }}>0 lei</div>
-              <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 20 }}>pentru totdeauna</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                {["✓ 1 simulare completă", "✓ Chestionar de orientare", "✓ Preview profesii", "✗ Raport AI detaliat", "✗ Video 360°"].map((f) => (
-                  <li key={f} style={{ fontSize: 13, color: f.startsWith("✗") ? "#94a3b8" : "#475569" }}>{f}</li>
-                ))}
-              </ul>
-              <Link href="/profesii/profesor" style={{ display: "block", background: "#e8f0fe", color: "#2563eb", borderRadius: 10, padding: "12px 16px", fontSize: 14, fontWeight: 600, textDecoration: "none", textAlign: "center" }}>
-                Încearcă gratuit →
-              </Link>
-            </div>
-
-            {/* Pro */}
-            <div style={{ background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)", borderRadius: 20, padding: 28, position: "relative" }}>
-              <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#fbbf24", color: "#1a1400", fontSize: 11, fontWeight: 800, padding: "4px 16px", borderRadius: 20, whiteSpace: "nowrap" }}>
-                ⭐ Recomandat
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(175px, 1fr))", gap: 14, alignItems: "start" }}>
+            {[
+              { name: "Basic", price: "0", unit: "LEI / lună", highlight: false, color: "#2563eb", cta: "Încearcă →", href: "/profesii/profesor" },
+              { name: "Pro", price: "119", unit: "LEI / 15 zile", highlight: false, color: "#2563eb", cta: "Alege Pro →", href: "/autentificare?plan=pro" },
+              { name: "Premium", price: "249", unit: "LEI / 15 zile", highlight: true, color: "#7c3aed", cta: "Alege Premium →", href: "/autentificare?plan=premium", badge: "RECOMANDAT" },
+              { name: "Domain Pro", price: "499", unit: "LEI / 15 zile", highlight: false, color: "#1e293b", cta: "Alege →", href: "/autentificare?plan=domain-pro" },
+              { name: "Instituții", price: "—", unit: "preț la cerere", highlight: false, color: "#d97706", cta: "Contactați-ne →", href: "/contact" },
+            ].map((p) => (
+              <div key={p.name} style={{ background: p.highlight ? "linear-gradient(135deg,#7c3aed,#6d28d9)" : "rgba(255,255,255,1)", border: p.highlight ? "2px solid #7c3aed" : "1px solid #bfdbfe", borderRadius: 18, padding: 20, textAlign: "center", position: "relative", boxShadow: p.highlight ? "0 8px 32px rgba(124,58,237,0.25)" : "0 2px 12px rgba(37,99,235,0.07)" }}>
+                {p.badge && (
+                  <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#7c3aed", color: "#fff", fontSize: 9, fontWeight: 800, padding: "4px 14px", borderRadius: 20, whiteSpace: "nowrap", letterSpacing: "0.08em" }}>{p.badge}</div>
+                )}
+                <div style={{ fontSize: 12, fontWeight: 700, color: p.highlight ? "#c4b5fd" : "#64748b", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>{p.name}</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: p.highlight ? "#fff" : "#1e293b", marginBottom: 2 }}>{p.price}</div>
+                <div style={{ fontSize: 10, color: p.highlight ? "rgba(255,255,255,0.6)" : "#94a3b8", marginBottom: 18 }}>{p.unit}</div>
+                <Link href={p.href} style={{ display: "block", background: p.highlight ? "#fff" : "#e8f0fe", color: p.highlight ? "#7c3aed" : "#2563eb", borderRadius: 8, padding: "10px 8px", fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
+                  {p.cta}
+                </Link>
               </div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#93c5fd", marginBottom: 4 }}>PRO</div>
-              <div style={{ fontSize: 36, fontWeight: 800, color: "#fff", marginBottom: 4 }}>149 lei</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginBottom: 20 }}>/ 15 zile · reducere 20% elevi</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                {["✓ Toate simulările", "✓ Raport AI personalizat", "✓ Video 360°", "✓ Badge-uri & streak", "✓ Profil de compatibilitate"].map((f) => (
-                  <li key={f} style={{ fontSize: 13, color: "rgba(255,255,255,0.85)" }}>{f}</li>
-                ))}
-              </ul>
-              <PlanButton planKey="pro" label="Vreau Pro →" className="w-full cursor-pointer border-0 py-3 px-4 rounded-xl text-sm font-bold text-blue-700 bg-white hover:bg-blue-50" />
-            </div>
-
-            {/* Școală */}
-            <div style={{ background: "rgba(255,255,255,1)", border: "1.5px solid #fde68a", borderRadius: 20, padding: 28 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#d97706", marginBottom: 4 }}>ȘCOALĂ / INSTITUȚIE</div>
-              <div style={{ fontSize: 28, fontWeight: 800, color: "#1e293b", marginBottom: 4 }}>Preț la cerere</div>
-              <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 20 }}>pentru clase & licee</div>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                {["✓ Conturi multiple", "✓ Dashboard profesor", "✓ Rapoarte per clasă", "✓ Personalizare conținut", "✓ Facturare B2B"].map((f) => (
-                  <li key={f} style={{ fontSize: 13, color: "#475569" }}>{f}</li>
-                ))}
-              </ul>
-              <Link href="/contact" style={{ display: "block", background: "#f59e0b", color: "#fff", borderRadius: 10, padding: "12px 16px", fontSize: 14, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>
-                Contactați-ne →
-              </Link>
-            </div>
-
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 20 }}>
+            <Link href="/planuri" style={{ fontSize: 13, color: "#2563eb", fontWeight: 600, textDecoration: "none" }}>
+              Compară toate planurile în detaliu →
+            </Link>
           </div>
         </div>
       </section>
