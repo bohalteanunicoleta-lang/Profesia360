@@ -122,7 +122,7 @@ export function getSimulationScore(state: SimulationState): {
   return { totalScore: score, grade, label };
 }
 
-export function computeBadges(state: SimulationState): Badge[] {
+export function computeBadges(state: SimulationState, dailyStreak?: number, totalRuns?: number): Badge[] {
   const badges: Badge[] = [];
 
   if (state.completedTasks.length > 0) {
@@ -145,6 +145,12 @@ export function computeBadges(state: SimulationState): Badge[] {
   }
   if (state.streak >= 5) {
     badges.push({ id: "fast", icon: "🔥", title: "Fără ezitare", desc: "5 decizii rapide consecutive." });
+  }
+  if (dailyStreak && dailyStreak >= 7) {
+    badges.push({ id: "in_flacari", icon: "👑", title: "În flăcări", desc: "7 zile consecutiv active — top 5%!" });
+  }
+  if (totalRuns && totalRuns >= 5) {
+    badges.push({ id: "polymath", icon: "🧠", title: "Polymath", desc: "5 simulări finalizate — explorator complet." });
   }
 
   return badges;

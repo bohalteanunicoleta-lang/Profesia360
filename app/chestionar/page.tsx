@@ -74,6 +74,7 @@ export default function ChestionarPage() {
       const data = await res.json();
       setRezultat(data.rezultat);
       setTopCategory(data.topCategory ?? null);
+      try { localStorage.setItem("profesia360_chestionar_xp", "75"); } catch { /* ignore */ }
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setEroare("A apărut o eroare. Te rugăm să încerci din nou.");

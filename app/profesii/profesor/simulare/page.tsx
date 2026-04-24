@@ -42,6 +42,10 @@ export default function SimularePage() {
   const [replayStep, setReplayStep] = useState<number>(-1);
   const [replayRunning, setReplayRunning] = useState(false);
   const [hardMode, setHardMode] = useState(false);
+  const [dailyStreak, setDailyStreak] = useState(0);
+  const [totalRuns, setTotalRuns] = useState(0);
+  const [showUpgradeNudge, setShowUpgradeNudge] = useState(false);
+  const consecutiveBadRef = useRef(0);
 
   const stateRef = useRef<SimulationState | null>(null);
   const hourRef = useRef(7);
@@ -52,6 +56,18 @@ export default function SimularePage() {
   const shownNotifIds = useRef(new Set<string>());
 
   useEffect(() => { stateRef.current = state; }, [state]);
+
+  useEffect(() => {
+    try {
+      const s = parseInt(localStorage.getItem("profesia360_streak") ?? "0");
+      const lastDay = localStorage.getItem("profesia360_last_day");
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      setDailyStreak(lastDay === today || lastDay === yesterday ? s : 0);
+      const prev = JSON.parse(localStorage.getItem("profesia360_results") ?? "[]");
+      setTotalRuns(prev.length);
+    } catch { /* ignore */ }
+  }, []);
 
   const addNotification = useCallback((n: NotifItem) => {
     setNotifications((prev) => prev.some((x) => x.id === n.id) ? prev : [...prev, n]);
@@ -160,10 +176,15 @@ export default function SimularePage() {
       const lastDay = localStorage.getItem("profesia360_last_day");
       const yesterday = new Date(Date.now() - 86400000).toDateString();
       const currentStreak = parseInt(localStorage.getItem("profesia360_streak") ?? "0");
+      let newStreak = currentStreak;
       if (lastDay === today) { /* same day, no change */ }
-      else if (lastDay === yesterday) { localStorage.setItem("profesia360_streak", String(currentStreak + 1)); }
-      else { localStorage.setItem("profesia360_streak", "1"); }
+      else if (lastDay === yesterday) { newStreak = currentStreak + 1; localStorage.setItem("profesia360_streak", String(newStreak)); }
+      else { newStreak = 1; localStorage.setItem("profesia360_streak", "1"); }
       localStorage.setItem("profesia360_last_day", today);
+      setDailyStreak(newStreak);
+      const allRuns = JSON.parse(localStorage.getItem("profesia360_results") ?? "[]");
+      setTotalRuns(allRuns.length + 1);
+      if (allRuns.length === 0) setShowUpgradeNudge(true);
     } catch { /* localStorage unavailable */ }
     setLoadingFeedback(true);
     fetch("/api/simulation/feedback", {
@@ -176,21 +197,30 @@ export default function SimularePage() {
       .catch(() => { setFeedback("Nu am putut genera feedback. Încearcă din nou."); setLoadingFeedback(false); });
   }, [phase]);
 
-  const startSimulation = () => {
+  const startSimulation = (hard = false) => {
+    let bonusXP = 0;
+    try {
+      const bonus = localStorage.getItem("profesia360_chestionar_xp");
+      if (bonus) { bonusXP = parseInt(bonus); localStorage.removeItem("profesia360_chestionar_xp"); }
+    } catch { /* ignore */ }
     const init: SimulationState = {
-      userId: "demo", currentXP: 0, level: 1,
+      userId: "demo", currentXP: bonusXP, level: 1,
       skills: { disciplina: 50, empatie: 50, organizare: 50, comunicare: 50, rezilienta: 50 },
       streak: 0, completedTasks: [], missedTasks: [], choicesMade: {},
       activeNotifications: [], simulationStarted: true, simulationComplete: false,
       startedAt: new Date().toISOString(),
     };
+    if (bonusXP > 0) {
+      addNotification({ id: "chestionar_bonus", type: "info", message: `🎯 +${bonusXP} XP bonus pentru completarea chestionarului!` });
+    }
+    consecutiveBadRef.current = 0;
     stateRef.current = init;
     hourRef.current = 7;
     minuteRef.current = 58;
     endHandledRef.current = false;
     shownNotifIds.current.clear();
     setState(init);
-    setHardMode(false);
+    setHardMode(hard);
     setCurrentHour(8);
     setCurrentMinute(0);
     setFeedback(null);
@@ -206,6 +236,15 @@ export default function SimularePage() {
     if (taskTimerRef.current) { clearInterval(taskTimerRef.current); taskTimerRef.current = null; }
     setSelectedChoice(choiceId);
     const choice = activeTask.choices.find((c) => c.id === choiceId)!;
+    if (choice.isOptimal) {
+      consecutiveBadRef.current = 0;
+    } else {
+      consecutiveBadRef.current += 1;
+      if (consecutiveBadRef.current >= 3) {
+        addNotification({ id: `simti_bine_${Date.now()}`, type: "info", message: "💙 Te simți bine? 3 decizii dificile la rând — ia o secundă să reflectezi." });
+        consecutiveBadRef.current = 0;
+      }
+    }
     try {
       const res = await fetch("/api/simulation/choice", {
         method: "POST",
@@ -259,10 +298,10 @@ export default function SimularePage() {
             ))}
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={() => { setHardMode(false); startSimulation(); }} style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 48px", fontSize: 16, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(37,99,235,0.35)" }}>
+            <button onClick={() => startSimulation(false)} style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 48px", fontSize: 16, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(37,99,235,0.35)" }}>
               Începe ziua de muncă →
             </button>
-            <button onClick={() => { setHardMode(true); startSimulation(); }} style={{ background: "linear-gradient(135deg,#dc2626,#991b1b)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 32px", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(220,38,38,0.35)" }}>
+            <button onClick={() => startSimulation(true)} style={{ background: "linear-gradient(135deg,#dc2626,#991b1b)", color: "#fff", border: "none", borderRadius: 12, padding: "16px 32px", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 8px 24px rgba(220,38,38,0.35)" }}>
               🔥 Zi grea (timere -50%)
             </button>
           </div>
@@ -277,7 +316,7 @@ export default function SimularePage() {
       const t = TASKS.find((x) => x.id === tid)!;
       return t.choices.find((c) => c.id === state.choicesMade[tid])?.isOptimal;
     }).length;
-    const badges = computeBadges(state);
+    const badges = computeBadges(state, dailyStreak, totalRuns);
     const profile = computeCompatibilityProfile(state);
     const matches = getCareerMatches(state);
     const profileLabels: Record<string, [string, string]> = {
@@ -464,6 +503,24 @@ export default function SimularePage() {
               <div style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>{feedback}</div>
             )}
           </div>
+          {showUpgradeNudge && (
+            <div style={{ background: "linear-gradient(135deg,#1e293b,#334155)", borderRadius: 16, padding: 20, marginBottom: 16, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 32 }}>✨</div>
+              <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Ți-a plăcut? Simulările Pro îți deschid 20+ profesii.</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>Raport AI extins, badge-uri exclusive, sesiuni 1-1 cu experți.</div>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                <a href="/planuri" style={{ background: "#2563eb", color: "#fff", borderRadius: 10, padding: "10px 20px", fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+                  Vezi planuri →
+                </a>
+                <button onClick={() => setShowUpgradeNudge(false)} style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.3)", color: "rgba(255,255,255,0.6)", borderRadius: 10, padding: "10px 14px", fontSize: 12, cursor: "pointer" }}>
+                  Nu acum
+                </button>
+              </div>
+            </div>
+          )}
+
           {!hardMode && optCount === state.completedTasks.length && state.completedTasks.length >= 4 && (
             <div style={{ background: "linear-gradient(135deg,#7f1d1d,#991b1b)", borderRadius: 16, padding: 20, marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }}>
               <div style={{ fontSize: 32 }}>🔥</div>
@@ -471,14 +528,14 @@ export default function SimularePage() {
                 <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>Felicitări — ai ales optim la toate!</div>
                 <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>Încearcă "Zi grea" — timere reduse la jumătate, presiune maximă.</div>
               </div>
-              <button onClick={() => { setHardMode(true); setState(null); setPhase("intro"); }} style={{ background: "#dc2626", color: "#fff", border: "none", borderRadius: 10, padding: "10px 20px", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
+              <button onClick={() => startSimulation(true)} style={{ background: "#dc2626", color: "#fff", border: "none", borderRadius: 10, padding: "10px 20px", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
                 Încearcă →
               </button>
             </div>
           )}
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <button onClick={() => { setState(null); setPhase("intro"); }} style={{ background: "#e8f0fe", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+            <button onClick={() => startSimulation(false)} style={{ background: "#e8f0fe", color: "#2563eb", border: "1px solid #2563eb", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
               ← Reia simularea
             </button>
             <a href="/rezultatele-mele" style={{ background: "#f0fdf4", color: "#059669", border: "1px solid #bbf7d0", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-block" }}>
