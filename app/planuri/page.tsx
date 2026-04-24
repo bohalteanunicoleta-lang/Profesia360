@@ -164,53 +164,53 @@ export default function PlanuriPage() {
         </div>
 
         {/* Cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, alignItems: "start" }}>
-          {PLANS.map((plan) => (
-            <div key={plan.key} style={{ borderRadius: 20, overflow: "hidden", border: `1.5px solid ${plan.highlight ? "#7c3aed" : plan.borderColor}`, boxShadow: plan.highlight ? "0 12px 40px rgba(124,58,237,0.25)" : "0 4px 16px rgba(0,0,0,0.06)", position: "relative", background: "#fff" }}>
+        {(() => {
+          const STYLES: Record<string, { bg: string; border: string; accent: string; styleBadge: string | null }> = {
+            basic:      { bg: "#f0f9ff", border: "#0ea5e9", accent: "#0ea5e9", styleBadge: null },
+            pro:        { bg: "#f0fdf4", border: "#059669", accent: "#059669", styleBadge: "⭐ Popular" },
+            premium:    { bg: "#fdf4ff", border: "#7c3aed", accent: "#7c3aed", styleBadge: "🏆 Recomandat" },
+            "domain-pro": { bg: "#fffbeb", border: "#ca8a04", accent: "#ca8a04", styleBadge: null },
+            institutii: { bg: "#fff1f2", border: "#be185d", accent: "#be185d", styleBadge: "🏛️ Instituții" },
+          };
+          return (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20, alignItems: "start" }}>
+              {PLANS.map((plan) => {
+                const s = STYLES[plan.key] ?? STYLES.basic;
+                return (
+                  <div key={plan.key} style={{ background: s.bg, border: `2px solid ${s.border}`, borderRadius: 16, padding: 24, position: "relative", boxShadow: `0 4px 20px ${s.border}22` }}>
+                    {s.styleBadge && (
+                      <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", background: s.accent, color: "#fff", borderRadius: 20, padding: "4px 16px", fontSize: 12, fontWeight: 700, whiteSpace: "nowrap" }}>
+                        {s.styleBadge}
+                      </div>
+                    )}
 
-              {/* Badge */}
-              {plan.badge && (
-                <div style={{ position: "absolute", top: 12, right: 12, background: "#7c3aed", color: "#fff", fontSize: 9, fontWeight: 800, padding: "4px 12px", borderRadius: 20, letterSpacing: "0.08em" }}>
-                  {plan.badge}
-                </div>
-              )}
+                    <div style={{ fontSize: 28, marginBottom: 6 }}>{plan.icon}</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: s.accent, marginBottom: 4 }}>{plan.name}</div>
+                    <div style={{ fontSize: plan.price === "—" ? 22 : 36, fontWeight: 800, color: "#1e293b", marginBottom: 2 }}>
+                      {plan.price}
+                      <span style={{ fontSize: 13, color: "#64748b", fontWeight: 400, marginLeft: 4 }}>{plan.unit}</span>
+                    </div>
 
-              {/* Header colorat */}
-              <div style={{ background: plan.highlight ? "linear-gradient(135deg,#7c3aed,#6d28d9)" : plan.headerBg, padding: "24px 20px 20px", textAlign: "center", borderBottom: `1px solid ${plan.highlight ? "rgba(255,255,255,0.1)" : plan.borderColor}` }}>
-                <div style={{ width: 52, height: 52, borderRadius: "50%", background: plan.highlight ? "rgba(255,255,255,0.2)" : plan.iconBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, margin: "0 auto 12px" }}>
-                  {plan.icon}
-                </div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: plan.highlight ? "#fff" : "#1e293b", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                  {plan.name}
-                </div>
-                <div style={{ fontSize: plan.price === "—" ? 22 : 32, fontWeight: 800, color: plan.highlight ? "#fff" : plan.iconColor, lineHeight: 1 }}>
-                  {plan.price}
-                </div>
-                <div style={{ fontSize: 11, color: plan.highlight ? "rgba(255,255,255,0.65)" : "#64748b", marginTop: 4 }}>
-                  {plan.unit}
-                </div>
-              </div>
+                    <div style={{ height: 1, background: `${s.border}55`, margin: "16px 0" }} />
 
-              {/* Features */}
-              <div style={{ padding: "18px 18px 20px" }}>
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 9 }}>
-                  {plan.features.map((f) => (
-                    <li key={f.text} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 12, color: f.ok ? "#334155" : "#94a3b8" }}>
-                      <span style={{ flexShrink: 0, marginTop: 1, fontSize: 13, color: f.ok ? (plan.highlight ? "#7c3aed" : plan.iconColor) : "#d1d5db" }}>
-                        {f.ok ? "✓" : "✗"}
-                      </span>
-                      {f.text}
-                    </li>
-                  ))}
-                </ul>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+                      {plan.features.map((f) => (
+                        <div key={f.text} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13, color: f.ok ? "#334155" : "#94a3b8" }}>
+                          <span style={{ color: f.ok ? s.accent : "#d1d5db", fontWeight: 700, flexShrink: 0 }}>{f.ok ? "✓" : "✗"}</span>
+                          <span>{f.text}</span>
+                        </div>
+                      ))}
+                    </div>
 
-                <Link href={plan.ctaHref} style={{ display: "block", borderRadius: 10, padding: "12px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none", textAlign: "center", background: plan.ctaBg, color: plan.ctaColor }}>
-                  {plan.cta} →
-                </Link>
-              </div>
+                    <Link href={plan.ctaHref} style={{ display: "block", width: "100%", background: `linear-gradient(135deg, ${s.accent}, ${s.border})`, color: "#fff", border: "none", borderRadius: 10, padding: "13px 16px", fontSize: 14, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>
+                      {plan.cta} →
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
-          ))}
-        </div>
+          );
+        })()}
 
         {/* Reducere elevi & studenți */}
         <div style={{ marginTop: 32, background: "rgba(255,255,255,0.95)", border: "1.5px solid #fde68a", borderRadius: 16, padding: "22px 28px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>

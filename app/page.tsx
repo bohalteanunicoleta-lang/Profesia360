@@ -29,7 +29,7 @@ export default function HomePage() {
               Simulezi o zi reală de muncă. Primești feedback AI personalizat. Decizi în cunoștință de cauză — nu pe baza sfaturilor altora.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/profesii/profesor" className="bg-white font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-colors text-base" style={{ color: "#2563eb" }}>
+              <Link href="/profesii" className="bg-white font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-colors text-base" style={{ color: "#2563eb" }}>
                 Încearcă gratuit — Simulare profesor →
               </Link>
               <a href="#cum-functioneaza" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white/10 transition-colors text-base">
@@ -78,7 +78,7 @@ export default function HomePage() {
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: 36 }}>
-            <Link href="/profesii/profesor" style={{ display: "inline-block", background: "#2563eb", color: "#fff", borderRadius: 100, padding: "14px 36px", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>
+            <Link href="/profesii" style={{ display: "inline-block", background: "#2563eb", color: "#fff", borderRadius: 100, padding: "14px 36px", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>
               Încearcă simularea gratuită →
             </Link>
           </div>
@@ -225,7 +225,7 @@ export default function HomePage() {
           <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 15, marginBottom: 32, lineHeight: 1.7 }}>
             Prima platformă din România unde testezi profesia, nu personalitatea.
           </p>
-          <Link href="/profesii/profesor" style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 100, padding: "16px 40px", fontSize: 16, fontWeight: 800, textDecoration: "none" }}>
+          <Link href="/profesii" style={{ display: "inline-block", background: "#fff", color: "#2563eb", borderRadius: 100, padding: "16px 40px", fontSize: 16, fontWeight: 800, textDecoration: "none" }}>
             Încearcă simularea — e gratuit →
           </Link>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 20 }}>
